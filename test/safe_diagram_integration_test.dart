@@ -1,0 +1,54 @@
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import '../lib/dynamic_triangle_renderer.dart';
+import '../lib/measured_circle_renderer.dart';
+import '../lib/measured_rectangle_renderer.dart';
+import '../lib/safe_diagram_renderer.dart';
+import '../lib/universal_diagram_engine.dart';
+
+void main() {
+  Widget screen(DiagramSpecification data) => MaterialApp(
+    home: Scaffold(body: Center(child: SizedBox(
+      width: 280,
+      child: SafeDiagramRenderer(data: data),
+    ))),
+  );
+
+  testWidgets('valid rectangle uses measured renderer', (tester) async {
+    await tester.pumpWidget(screen(const DiagramSpecification(
+      shape: DiagramShape.rectangle,
+      measurements: {'width': 8, 'height': 4},
+    )));
+    expect(find.byType(MeasuredRectangleRenderer), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('valid circle uses measured renderer', (tester) async {
+    await tester.pumpWidget(screen(const DiagramSpecification(
+      shape: DiagramShape.circle,
+      measurements: {'radius': 7},
+    )));
+    expect(find.byType(MeasuredCircleRenderer), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('invalid rectangle is hidden', (tester) async {
+    await tester.pumpWidget(screen(const DiagramSpecification(
+      shape: DiagramShape.rectangle,
+      measurements: {'width': -8, 'height': 4},
+    )));
+    expect(find.byType(MeasuredRectangleRenderer), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('valid triangle uses dynamic renderer', (tester) async {
+    await tester.pumpWidget(screen(const DiagramSpecification(
+      shape: DiagramShape.triangle,
+      measurements: {'angleA': 80, 'angleB': 50, 'angleC': 50},
+    )));
+    expect(find.byType(DynamicTriangleRenderer), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+}
+
+

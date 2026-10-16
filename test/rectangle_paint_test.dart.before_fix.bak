@@ -1,0 +1,33 @@
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import '../lib/measured_rectangle_renderer.dart';
+
+void main() {
+  Future<void> checkPainting(WidgetTester tester, double width, double height) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(body: Center(child: SizedBox(
+        width: 280,
+        child: MeasuredRectangleRenderer(width: width, height: height),
+      ))),
+    ));
+
+    final paints = find.descendant(
+      of: find.byType(MeasuredRectangleRenderer),
+      matching: find.byType(CustomPaint),
+    );
+    expect(paints, findsOneWidget);
+    final widget = tester.widget<CustomPaint>(paints);
+    expect(widget.painter, isNotNull);
+    final paint = PaintPattern()..rect(rect: any, paint: any);
+    expect(widget.painter, paintsExactlyCountTimes(#drawRect, 1));
+    expect(tester.takeException(), isNull);
+  }
+
+  testWidgets('wide rectangle painter draws one rectangle', (tester) async {
+    await checkPainting(tester, 8, 4);
+  });
+
+  testWidgets('tall rectangle painter draws one rectangle', (tester) async {
+    await checkPainting(tester, 4, 8);
+  });
+}

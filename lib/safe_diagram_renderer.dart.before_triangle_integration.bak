@@ -1,0 +1,32 @@
+﻿import 'package:flutter/material.dart';
+import 'diagram_validator.dart';
+import 'measured_circle_renderer.dart';
+import 'measured_rectangle_renderer.dart';
+import 'universal_diagram_engine.dart';
+
+class SafeDiagramRenderer extends StatelessWidget {
+  final DiagramSpecification data;
+
+  const SafeDiagramRenderer({super.key, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    if (!DiagramValidator.canDrawToScale(data)) {
+      return const SizedBox.shrink();
+    }
+
+    switch (data.shape) {
+      case DiagramShape.rectangle:
+        return MeasuredRectangleRenderer(
+          width: data.measurements['width']!,
+          height: data.measurements['height']!,
+        );
+      case DiagramShape.circle:
+        return MeasuredCircleRenderer(
+          radius: data.measurements['radius']!,
+        );
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+}

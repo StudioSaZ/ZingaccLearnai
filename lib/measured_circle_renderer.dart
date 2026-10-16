@@ -1,0 +1,66 @@
+﻿import 'dart:math' as math;
+import 'package:flutter/material.dart';
+import 'diagram_geometry.dart';
+
+class MeasuredCircleRenderer extends StatelessWidget {
+  final double radius;
+  final String unit;
+
+  const MeasuredCircleRenderer({
+    super.key,
+    required this.radius,
+    this.unit = 'cm',
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (!DiagramGeometry.positive(radius)) {
+      return const SizedBox.shrink();
+    }
+    return AspectRatio(
+      aspectRatio: 1.4,
+      child: CustomPaint(
+        painter: _MeasuredCirclePainter(radius, unit),
+      ),
+    );
+  }
+}
+
+class _MeasuredCirclePainter extends CustomPainter {
+  final double radius;
+  final String unit;
+
+  _MeasuredCirclePainter(this.radius, this.unit);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width * .48, size.height * .5);
+    final drawnRadius = math.min(size.width * .30, size.height * .36);
+    final outline = Paint()
+      ..color = Colors.blue.shade700
+      ..strokeWidth = 2.5
+      ..style = PaintingStyle.stroke;
+    final radiusPaint = Paint()
+      ..color = Colors.teal.shade700
+      ..strokeWidth = 2;
+
+    canvas.drawCircle(center, drawnRadius, outline);
+    canvas.drawLine(center, center + Offset(drawnRadius, 0), radiusPaint);
+    canvas.drawCircle(center, 3, Paint()..color = Colors.teal.shade700);
+
+    final text = TextPainter(
+      text: TextSpan(
+        text: 'r = $radius $unit',
+        style: const TextStyle(color: Colors.black, fontSize: 13),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    text.paint(canvas, center + const Offset(5, -23));
+  }
+
+  @override
+  bool shouldRepaint(covariant _MeasuredCirclePainter oldDelegate) =>
+      oldDelegate.radius != radius || oldDelegate.unit != unit;
+}
+
+

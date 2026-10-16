@@ -1,0 +1,25 @@
+﻿import 'universal_diagram_engine.dart';
+
+class DiagramQuestionParser {
+  const DiagramQuestionParser._();
+
+  static DiagramSpecification? parse(String question) {
+    final text = question.trim().toLowerCase();
+    final pattern = RegExp(
+      r'^a rectangle has width\s+(\d+(?:\.\d+)?)\s*cm\s+and height\s+(\d+(?:\.\d+)?)\s*cm\.?$',
+    );
+    final secondPattern = RegExp(
+      r'^a rectangle has length\s+(\d+(?:\.\d+)?)\s*cm\s+and width\s+(\d+(?:\.\d+)?)\s*cm\.?$',
+    );
+    final match = pattern.firstMatch(text) ?? secondPattern.firstMatch(text);
+    if (match == null) return null;
+    final width = double.tryParse(match.group(secondPattern.hasMatch(text) ? 2 : 1)!);
+    final height = double.tryParse(match.group(secondPattern.hasMatch(text) ? 1 : 2)!);
+    if (width == null || height == null || !width.isFinite || !height.isFinite || width <= 0 || height <= 0) return null;
+    return DiagramSpecification(
+      shape: DiagramShape.rectangle,
+      measurements: {'width': width, 'height': height},
+    );
+  }
+}
+

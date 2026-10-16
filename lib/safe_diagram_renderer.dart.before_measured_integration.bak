@@ -1,0 +1,18 @@
+﻿import 'package:flutter/material.dart';
+import 'diagram_validator.dart';
+import 'universal_diagram_engine.dart';
+import 'universal_diagram_renderer.dart';
+
+class SafeDiagramRenderer extends StatelessWidget {
+  final DiagramSpecification data;
+
+  const SafeDiagramRenderer({super.key, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    if (!DiagramValidator.canDrawToScale(data)) {
+      return const SizedBox.shrink();
+    }
+    return UniversalDiagramRenderer(data: data);
+  }
+}
