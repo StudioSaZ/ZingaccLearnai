@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'ai_tutor_screen.dart';
 import 'zingacc_brand_banner.dart';
+import 'package:flutter/gestures.dart'; // 🌟 මවුස් සපෝට් එකට මේක එකතු කරන්න
 
 /// Grade 6 Mathematics lessons from NIE Modules 1–3 and number enrichment.
 /// AI Tutor accuracy and verification code are not changed here.
@@ -80,15 +81,7 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
     _text(const _Copy('ප්‍රශ්නාවලිය', 'Quiz', 'வினாடி வினா')),
   ];
 
-  static const List<Color> _stepColors = [
-    Color(0xFF7546D8),
-    Color(0xFF1769D8),
-    Color(0xFF008A91),
-    Color(0xFFC24179),
-    Color(0xFFAD6200),
-  ];
-
-  Color get _accent => _stepColors[_step];
+  Color get _accent => const Color(0xFFD4AF37); // All Gold Accent
 
   @override
   void initState() {
@@ -119,16 +112,9 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFF112A20), // Dark Green Panel
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFDDE5F5)),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x1007132F),
-            blurRadius: 16,
-            offset: Offset(0, 6),
-          ),
-        ],
+        border: Border.all(color: _accent.withValues(alpha: 0.3)), // Gold border
       ),
       child: child,
     );
@@ -141,7 +127,7 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
           width: 46,
           height: 46,
           decoration: BoxDecoration(
-            color: _accent.withValues(alpha: 0.10),
+            color: _accent.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(15),
           ),
           child: Icon(icon, color: _accent),
@@ -150,10 +136,10 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 21,
               fontWeight: FontWeight.w800,
-              color: Color(0xFF20283A),
+              color: _accent, // Gold text
               height: 1.35,
             ),
           ),
@@ -182,7 +168,7 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
                   child: Text(
                     _text(item),
                     style: const TextStyle(
-                      color: Color(0xFF34425B),
+                      color: Colors.white,
                       fontSize: 15,
                       height: 1.55,
                     ),
@@ -208,7 +194,7 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
           ),
           const SizedBox(height: 18),
           _textList(lesson.learn),
-          const Divider(height: 28),
+          Divider(height: 28, color: _accent.withValues(alpha: 0.2)),
           Text(
             _text(
                 const _Copy('මතක තබාගන්න', 'Remember', 'நினைவில் கொள்ளுங்கள்')),
@@ -228,7 +214,7 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
               'இந்த முக்கியக் குறிப்புகள் அதிகாரப்பூர்வ 6ஆம் தரக் கணிதத் தொகுதிகளின் பாட இலக்குகளின் அடிப்படையில் அமைக்கப்பட்டுள்ளன.',
             )),
             style: const TextStyle(
-              color: Color(0xFF667085),
+              color: Colors.white54,
               fontSize: 12,
               height: 1.45,
             ),
@@ -256,14 +242,14 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                color: const Color(0xFFF6F8FF),
+                color: const Color(0xFF0A1C14), // Deep Green inside
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFFDDE5F5)),
+                border: Border.all(color: _accent.withValues(alpha: 0.3)),
               ),
               child: Text(
                 _text(lesson.examples[i]),
                 style: const TextStyle(
-                  color: Color(0xFF34425B),
+                  color: Colors.white,
                   fontSize: 15,
                   height: 1.6,
                 ),
@@ -292,7 +278,7 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
               'இந்தப் பாடத்தின் எந்தப் பகுதியைப் பற்றியும் அல்லது புதிய உதாரணத்தையும் நீங்கள் தேர்ந்தெடுத்த மொழியில் கேளுங்கள்.',
             )),
             style: const TextStyle(
-              color: Color(0xFF34425B),
+              color: Colors.white,
               fontSize: 15,
               height: 1.55,
             ),
@@ -302,9 +288,15 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
             width: double.infinity,
             child: FilledButton.icon(
               onPressed: _openAI,
+              style: FilledButton.styleFrom(
+                backgroundColor: _accent,
+                foregroundColor: const Color(0xFF0A1C14), // Dark Text
+              ),
               icon: const Icon(Icons.auto_awesome_rounded),
-              label: Text(_text(const _Copy(
-                  'AI Tutor අරින්න', 'Open AI Tutor', 'AI Tutor திறக்கவும்'))),
+              label: Text(
+                  _text(const _Copy('AI Tutor අරින්න', 'Open AI Tutor',
+                      'AI Tutor திறக்கவும்')),
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
         ],
@@ -330,7 +322,7 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
               'Write your answers in a notebook, then check your understanding with the quiz.',
               'உங்கள் பதில்களைப் புத்தகத்தில் எழுதி, பின்னர் வினாடி வினா மூலம் புரிதலைச் சரிபார்க்கவும்.',
             )),
-            style: const TextStyle(color: Color(0xFF667085), height: 1.5),
+            style: const TextStyle(color: Colors.white70, height: 1.5),
           ),
           const SizedBox(height: 15),
           _textList(lesson.practice, icon: Icons.edit_rounded),
@@ -364,9 +356,17 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
               onPressed: _answers.any((answer) => answer == null)
                   ? null
                   : () => setState(() => _quizSubmitted = true),
+              style: FilledButton.styleFrom(
+                backgroundColor: _accent,
+                foregroundColor: const Color(0xFF0A1C14),
+                disabledBackgroundColor: const Color(0xFF0A1C14),
+                disabledForegroundColor: Colors.white54,
+              ),
               icon: const Icon(Icons.check_rounded),
-              label: Text(_text(const _Copy('පිළිතුරු බලන්න', 'Check answers',
-                  'பதில்களைச் சரிபார்க்கவும்'))),
+              label: Text(
+                  _text(const _Copy('පිළිතුරු බලන්න', 'Check answers',
+                      'பதில்களைச் சரிபார்க்கவும்')),
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
           if (_quizSubmitted) ...[
@@ -375,8 +375,9 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
               width: double.infinity,
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFF4D6),
+                color: const Color(0xFF0A1C14), // Dark Green inside
                 borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: _accent.withValues(alpha: 0.5)),
               ),
               child: Text(
                 _text(const _Copy(
@@ -384,8 +385,8 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
                     score.toString() +
                     ' / ' +
                     lesson.quiz.length.toString(),
-                style: const TextStyle(
-                  color: Color(0xFF754300),
+                style: TextStyle(
+                  color: _accent,
                   fontSize: 17,
                   fontWeight: FontWeight.w800,
                 ),
@@ -404,9 +405,9 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFF6F8FF),
+        color: const Color(0xFF0A1C14), // Deep Green inside
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFDDE5F5)),
+        border: Border.all(color: _accent.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -414,7 +415,7 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
           Text(
             (questionIndex + 1).toString() + '. ' + _text(question.question),
             style: const TextStyle(
-              color: Color(0xFF20283A),
+              color: Colors.white,
               fontSize: 15,
               fontWeight: FontWeight.w700,
               height: 1.45,
@@ -422,22 +423,25 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
           ),
           const SizedBox(height: 7),
           for (var option = 0; option < question.options.length; option++)
-            RadioListTile<int>(
-              dense: true,
-              contentPadding: EdgeInsets.zero,
-              activeColor: _accent,
-              value: option,
-              groupValue: selected,
-              onChanged: _quizSubmitted
-                  ? null
-                  : (value) => setState(() => _answers[questionIndex] = value),
-              title: Text(
-                _text(question.options[option]),
-                style: const TextStyle(color: Color(0xFF34425B), height: 1.4),
+            Theme(
+              data: ThemeData(unselectedWidgetColor: Colors.white54),
+              child: RadioListTile<int>(
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+                activeColor: _accent,
+                value: option,
+                groupValue: selected,
+                onChanged: _quizSubmitted
+                    ? null
+                    : (value) => setState(() => _answers[questionIndex] = value),
+                title: Text(
+                  _text(question.options[option]),
+                  style: const TextStyle(color: Colors.white70, height: 1.4),
+                ),
               ),
             ),
           if (_quizSubmitted) ...[
-            const Divider(),
+            Divider(color: _accent.withValues(alpha: 0.2)),
             Text(
               _text(selected == correct
                   ? const _Copy('නිවැරදියි!', 'Correct!', 'சரி!')
@@ -448,8 +452,9 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
                       : _text(question.options[correct])) +
                   '\n' +
                   _text(question.explanation),
-              style: const TextStyle(
-                color: Color(0xFF34425B),
+              style: TextStyle(
+                color:
+                selected == correct ? Colors.greenAccent : Colors.redAccent,
                 fontSize: 14,
                 height: 1.55,
                 fontWeight: FontWeight.w600,
@@ -465,8 +470,7 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
     return _card(
       child: Column(
         children: [
-          const Icon(Icons.pending_actions_rounded,
-              size: 46, color: Color(0xFF7546D8)),
+          Icon(Icons.pending_actions_rounded, size: 46, color: _accent),
           const SizedBox(height: 12),
           Text(
             _text(const _Copy(
@@ -476,14 +480,20 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
             )),
             textAlign: TextAlign.center,
             style: const TextStyle(
-                color: Color(0xFF34425B), fontSize: 15, height: 1.55),
+                color: Colors.white70, fontSize: 15, height: 1.55),
           ),
           const SizedBox(height: 16),
           FilledButton.icon(
             onPressed: _openAI,
+            style: FilledButton.styleFrom(
+              backgroundColor: _accent,
+              foregroundColor: const Color(0xFF0A1C14),
+            ),
             icon: const Icon(Icons.auto_awesome_rounded),
-            label: Text(_text(const _Copy(
-                'AI Tutor අරින්න', 'Open AI Tutor', 'AI Tutor திறக்கவும்'))),
+            label: Text(
+                _text(const _Copy(
+                    'AI Tutor අරින්න', 'Open AI Tutor', 'AI Tutor திறக்கவும்')),
+                style: const TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -510,48 +520,62 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const background = Color(0xFF0A1C14);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F5FF),
+      backgroundColor: background,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
-        title: Text(_displayTitle),
-        backgroundColor: const Color(0xFF07132F),
-        foregroundColor: Colors.white,
+        title: Text(_displayTitle, style: TextStyle(color: _accent)),
+        backgroundColor: background,
+        foregroundColor: _accent,
         elevation: 0,
         centerTitle: true,
       ),
       body: SafeArea(
         child: Column(
           children: [
+            // 🌟 ළමයින්ට පහසුවෙන් පේළි කැඩී පෙනෙන (Wrap with auto-flow) ChoiceChips සේට් එක
             Container(
               width: double.infinity,
-              color: Colors.white,
-              padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List<Widget>.generate(_stepNames.length, (index) {
-                    final selected = _step == index;
-                    final color = _stepColors[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: ChoiceChip(
-                        selected: selected,
-                        showCheckmark: false,
-                        backgroundColor: color.withValues(alpha: 0.08),
-                        selectedColor: color,
-                        side: BorderSide(color: color.withValues(alpha: 0.25)),
-                        labelStyle: TextStyle(
-                          color: selected ? Colors.white : color,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13,
+              color: background,
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
+              // 🌟 මෙන්න මේ ScrollConfiguration එකෙන් තමයි මවුස් එකෙන් අදින්න පුළුවන් කරන්නේ
+              child: ScrollConfiguration(
+                behavior: ScrollConfiguration.of(context).copyWith(
+                  dragDevices: {
+                    PointerDeviceKind.touch, // ෆෝන් එකේ ටච් එකට
+                    PointerDeviceKind.mouse, // 🌟 ලැප්ටොප් එකේ මවුස් එකෙන් අදින්න
+                    PointerDeviceKind.trackpad, // ලැප්ටොප් ට්‍රැක්පෑඩ් එකට
+                  },
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Row(
+                    children: List<Widget>.generate(_stepNames.length, (index) {
+                      final selected = _step == index;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: ChoiceChip(
+                          selected: selected,
+                          showCheckmark: false,
+                          backgroundColor: const Color(0xFF112A20), // Dark Green
+                          selectedColor: _accent,
+                          side: BorderSide(
+                            color: selected ? _accent : _accent.withValues(alpha: 0.3),
+                          ),
+                          labelStyle: TextStyle(
+                            color: selected ? const Color(0xFF0A1C14) : Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 13,
+                          ),
+                          label: Text((index + 1).toString() + '. ' + _stepNames[index]),
+                          onSelected: (_) => setState(() => _step = index),
                         ),
-                        label: Text(
-                            (index + 1).toString() + '. ' + _stepNames[index]),
-                        onSelected: (_) => setState(() => _step = index),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+                  ),
                 ),
               ),
             ),
@@ -567,10 +591,10 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
                       const SizedBox(height: 20),
                       Text(
                         _displayTitle,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w800,
-                          color: Color(0xFF20283A),
+                          color: _accent,
                           height: 1.35,
                         ),
                       ),
@@ -581,9 +605,7 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
                             _displaySubject +
                             (_isSupported ? ' • ' + _text(_pack!.module) : ''),
                         style: const TextStyle(
-                            color: Color(0xFF536078),
-                            fontSize: 13,
-                            height: 1.4),
+                            color: Colors.white70, fontSize: 13, height: 1.4),
                       ),
                       const SizedBox(height: 18),
                       _currentStep(),
@@ -594,11 +616,14 @@ class _LessonLearningScreenState extends State<LessonLearningScreen> {
                           child: FilledButton.icon(
                             onPressed: _next,
                             icon: const Icon(Icons.arrow_forward_rounded),
-                            label: Text(_text(const _Copy(
-                                'ඊළඟ පියවර', 'Next step', 'அடுத்த படி'))),
+                            label: Text(
+                                _text(const _Copy('ඊළඟ පියවර', 'Next step',
+                                    'அடுத்த படி')),
+                                style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
                             style: FilledButton.styleFrom(
                               backgroundColor: _accent,
-                              foregroundColor: Colors.white,
+                              foregroundColor: const Color(0xFF0A1C14),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 16),
                               shape: RoundedRectangleBorder(
@@ -844,7 +869,7 @@ const List<_LessonPack> _grade6Lessons = [
         'මොඩියුලය 1 • සංඛ්‍යා I', 'Module 1 • Number I', 'தொகுதி 1 • எண்கள் I'),
     learn: [
       _Copy(
-          'සංඛ්‍යා රේඛාවක සංඛ්‍යා සමාන පරතරයකින් පිළිවෙළට සලකුණු කරයි.',
+          'සංඛ්‍යා රේඛාවක සංඛ්‍යා සමාන පරතරයකින් පිළිවෙළින් සලකුණු කරයි.',
           'Numbers on a number line are marked in order at equal intervals.',
           'எண் கோட்டில் எண்கள் சம இடைவெளியில் வரிசையாகக் குறிக்கப்படுகின்றன.'),
       _Copy(
@@ -930,7 +955,7 @@ const List<_LessonPack> _grade6Lessons = [
           explanation: _Copy(
               'සෑම පියවරකදීම 1 බැගින් වැඩි වේ.',
               'The number increases by 1 at each step.',
-              'ஒவ்வொரு படியிலும் 1 அதிகரிக்கிறது.')),
+              'ஒவ்வொரு படியிலும் 1 அதிகரிக்கும்.')),
     ],
   ),
   _LessonPack(
@@ -1409,9 +1434,9 @@ const List<_LessonPack> _grade6Lessons = [
       'எண்களுடன் விளையாடுவோம் (மேலதிகக் கற்றல்)',
     ),
     module: _Copy(
-      'වැඩිදුර ඉගෙනුම් මොඩියුලය • සංඛ්‍යා',
+      'වැඩිදුර ඉගෙනුම් මොඩියුලය\nසංඛ්‍යා',
       'Further Learning Module • Numbers',
-      'மேலதிகக் கற்றல் தொகுதி • எண்கள்',
+      'மேலதிகக் கற்றல் தொகுதி\nஎண்கள்',
     ),
     learn: [
       _Copy(

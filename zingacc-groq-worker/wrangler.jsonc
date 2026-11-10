@@ -1,0 +1,13 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "zingacclearnai",
+	"main": "src/index.js",
+	"compatibility_date": "2026-11-03",
+	"observability": {
+		"enabled": true
+	},
+	"upload_source_maps": true,
+	"assets": {
+		"directory": "web"
+	}
+}

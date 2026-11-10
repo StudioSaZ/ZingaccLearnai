@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "206138519919",
+    "project_id": "zingacc-learn-ai",
+    "storage_bucket": "zingacc-learn-ai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206138519919:android:0ca0dc4ba36c74393bf89a",
+        "android_client_info": {
+          "package_name": "com.example.zingacclearnai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaip9KS-Z4Wjgzv8HP4RY82-rMttmf4JA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

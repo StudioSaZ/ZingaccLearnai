@@ -52,17 +52,6 @@ class _JuniorSubjectSelectionScreenState
     _JuniorSubject('drama', 'Drama', Icons.theater_comedy_outlined),
   ];
 
-  static const List<Color> _accents = [
-    Color(0xFFB77AFF),
-    Color(0xFF55B9FF),
-    Color(0xFF39D5BD),
-    Color(0xFFFF80B5),
-    Color(0xFFFFC267),
-    Color(0xFF91A2FF),
-    Color(0xFF58DBEE),
-    Color(0xFFA9DE70),
-  ];
-
   String _label(String sinhala, String english, String tamil) {
     final medium = widget.selectedMedium.toLowerCase();
     if (medium == 'sinhala' || medium == 'සිංහල') return sinhala;
@@ -163,17 +152,20 @@ class _JuniorSubjectSelectionScreenState
 
   @override
   Widget build(BuildContext context) {
+    const background = Color(0xFF0A1C14); // Deep Dark Green
+    const gold = Color(0xFFD4AF37); // Premium Gold
+
     return Scaffold(
-      backgroundColor: const Color(0xFF07132F),
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF07132F),
-        foregroundColor: Colors.white,
+        backgroundColor: background,
+        foregroundColor: gold,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         title: const Text(
           'Zingacc Learn AI',
-          style: TextStyle(fontWeight: FontWeight.w800),
+          style: TextStyle(fontWeight: FontWeight.w800, color: gold),
         ),
       ),
       body: SafeArea(
@@ -186,7 +178,6 @@ class _JuniorSubjectSelectionScreenState
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       final columns = constraints.maxWidth >= 700 ? 2 : 1;
-                      // Fixed syntax error here
                       final cardWidth = (constraints.maxWidth - 36 - 12 * (columns - 1)) / columns;
 
                       return ListView(
@@ -198,15 +189,15 @@ class _JuniorSubjectSelectionScreenState
                             spacing: 9,
                             runSpacing: 9,
                             children: [
-                              _chip(_gradeName, Icons.school_rounded, const Color(0xFFB77AFF)),
-                              _chip(_mediumName, Icons.language_rounded, const Color(0xFF55B9FF)),
+                              _chip(_gradeName, Icons.school_rounded, gold),
+                              _chip(_mediumName, Icons.language_rounded, gold),
                             ],
                           ),
                           const SizedBox(height: 24),
                           Text(
                             _label('ඔබේ විෂය තෝරන්න', 'Choose Your Subject', 'உங்கள் பாடத்தைத் தேர்ந்தெடுக்கவும்'),
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: gold,
                               fontSize: 26,
                               fontWeight: FontWeight.w800,
                             ),
@@ -219,7 +210,7 @@ class _JuniorSubjectSelectionScreenState
                               'நீங்கள் படிக்க விரும்பும் பாடத்தைத் தேர்ந்தெடுக்கவும்.',
                             ),
                             style: const TextStyle(
-                              color: Color(0xFFC3D0EA),
+                              color: Colors.white70,
                               fontSize: 16,
                               height: 1.5,
                             ),
@@ -227,7 +218,7 @@ class _JuniorSubjectSelectionScreenState
                           _section(
                             heading: _label('ප්‍රධාන විෂයයන්', 'Main Subjects', 'பிரதான பாடங்கள்'),
                             icon: Icons.school_outlined,
-                            color: const Color(0xFF55B9FF),
+                            color: gold,
                             items: [..._languages, ..._common],
                             cardWidth: cardWidth,
                           ),
@@ -238,18 +229,16 @@ class _JuniorSubjectSelectionScreenState
                               'மதம் (நீங்கள் படிக்கும் பாடத்தைத் தேர்ந்தெடுக்கவும்)',
                             ),
                             icon: Icons.menu_book_outlined,
-                            color: const Color(0xFFFFC267),
+                            color: gold,
                             items: _religions,
                             cardWidth: cardWidth,
-                            colorOffset: 4,
                           ),
                           _section(
                             heading: _label('සෞන්දර්ය විෂයයන්', 'Aesthetic Subjects', 'அழகியல் பாடங்கள்'),
                             icon: Icons.palette_outlined,
-                            color: const Color(0xFFFF80B5),
+                            color: gold,
                             items: _aesthetics,
                             cardWidth: cardWidth,
-                            colorOffset: 3,
                           ),
                         ],
                       );
@@ -259,17 +248,17 @@ class _JuniorSubjectSelectionScreenState
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(18, 12, 18, 18),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF07132F),
-                    border: Border(top: BorderSide(color: Color(0xFF263960))),
+                  decoration: BoxDecoration(
+                    color: background,
+                    border: Border(top: BorderSide(color: gold.withValues(alpha: 0.3))),
                   ),
                   child: FilledButton(
                     onPressed: _selected == null ? null : _continue,
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF7546D8),
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: const Color(0xFF263451),
-                      disabledForegroundColor: const Color(0xFFABBCD8),
+                      backgroundColor: gold,
+                      foregroundColor: background,
+                      disabledBackgroundColor: const Color(0xFF112A20),
+                      disabledForegroundColor: Colors.white54,
                       minimumSize: const Size.fromHeight(54),
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
@@ -309,9 +298,9 @@ class _JuniorSubjectSelectionScreenState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: const Color(0xFF112A20),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withValues(alpha: 0.35)),
+        border: Border.all(color: color.withValues(alpha: 0.5)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -322,7 +311,7 @@ class _JuniorSubjectSelectionScreenState
             child: Text(
               text,
               style: const TextStyle(
-                color: Color(0xFFE0E9FA),
+                color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
@@ -339,7 +328,6 @@ class _JuniorSubjectSelectionScreenState
     required Color color,
     required List<_JuniorSubject> items,
     required double cardWidth,
-    int colorOffset = 0,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -379,7 +367,7 @@ class _JuniorSubjectSelectionScreenState
                 width: cardWidth,
                 child: _subjectCard(
                   items[index],
-                  _accents[(index + colorOffset) % _accents.length],
+                  color,
                 ),
               ),
           ],
@@ -394,11 +382,11 @@ class _JuniorSubjectSelectionScreenState
     return Semantics(
       selected: selected,
       child: Material(
-        color: selected ? accent.withValues(alpha: 0.18) : const Color(0xFF101F43),
+        color: selected ? accent.withValues(alpha: 0.22) : const Color(0xFF112A20), // Dark Green Panel
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(19),
           side: BorderSide(
-            color: selected ? accent : const Color(0xFF263960),
+            color: selected ? accent : accent.withValues(alpha: 0.3),
             width: selected ? 2 : 1,
           ),
         ),
@@ -437,7 +425,7 @@ class _JuniorSubjectSelectionScreenState
                 const SizedBox(width: 9),
                 Icon(
                   selected ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
-                  color: selected ? accent : const Color(0xFF8093B7),
+                  color: selected ? accent : Colors.white54,
                   size: 24,
                 ),
               ],

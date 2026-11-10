@@ -49,7 +49,7 @@ class FirestoreService {
 
     // නොමිලේ ප්‍රශ්න 2ක් පමණක් ලබාදීම
     final used = _asInt(data?['free_questions_used']);
-    return (2 - used).clamp(0, 2).toInt();
+    return (2 - used).clamp(0, 2).toInt(); // මෙතන තිබුණු Error එක හැදුවා
   }
 
   static Future<int> getPaidQuestionsRemaining() async {
@@ -196,6 +196,26 @@ class FirestoreService {
       'question': question,
       'answer': answer,
       'timestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
+  // --- අලුතින් එක් කළ ලකුණු (Points) එකතු කිරීමේ ක්‍රමය ---
+  static Future<void> addLearningPoints(int points) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    final ref = _db.collection('users').doc(user.uid);
+
+    await _db.runTransaction((tx) async {
+      final snap = await tx.get(ref);
+      if (snap.exists) {
+        final data = snap.data() ?? {};
+        final currentPoints = _asInt(data['learning_points']);
+
+        tx.set(ref, {
+          'learning_points': currentPoints + points,
+        }, SetOptions(merge: true));
+      }
     });
   }
 }

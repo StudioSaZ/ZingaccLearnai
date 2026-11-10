@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'zingacc_brand_banner.dart';
 
 /// Lets the learner choose the language for AI explanations.
@@ -26,22 +25,22 @@ class ExplanationLanguageScreen extends StatefulWidget {
 class _ExplanationLanguageScreenState extends State<ExplanationLanguageScreen> {
   String? _selectedLanguage;
 
-  static const List<ExplanationLanguage> _languages = [
-    ExplanationLanguage(
+  static final List<ExplanationLanguage> _languages = [
+    const ExplanationLanguage(
       id: 'sinhala',
       title: 'සිංහල',
       subtitle: 'Explain in Sinhala',
       description: 'Get AI answers and step-by-step explanations in Sinhala.',
       icon: Icons.translate_rounded,
     ),
-    ExplanationLanguage(
+    const ExplanationLanguage(
       id: 'english',
       title: 'English',
       subtitle: 'Explain in English',
       description: 'Get AI answers and step-by-step explanations in English.',
       icon: Icons.language_rounded,
     ),
-    ExplanationLanguage(
+    const ExplanationLanguage(
       id: 'tamil',
       title: 'தமிழ்',
       subtitle: 'Explain in Tamil',
@@ -229,17 +228,21 @@ class _ExplanationLanguageScreenState extends State<ExplanationLanguageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const background = Color(0xFF0A1C14);
+    const gold = Color(0xFFD4AF37);
+    const panel = Color(0xFF112A20);
+
     return Scaffold(
-      backgroundColor: const Color(0xFF07132F),
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF07132F),
-        foregroundColor: Colors.white,
+        backgroundColor: background,
+        foregroundColor: gold,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         title: const Text(
           'Zingacc Learn AI',
-          style: TextStyle(fontWeight: FontWeight.w800),
+          style: TextStyle(fontWeight: FontWeight.w800, color: gold),
         ),
       ),
       body: SafeArea(
@@ -257,8 +260,7 @@ class _ExplanationLanguageScreenState extends State<ExplanationLanguageScreen> {
                           : contentWidth >= 560
                           ? 2
                           : 1;
-                      final cardWidth =
-                          (contentWidth - 12 * (columns - 1)) / columns;
+                      final cardWidth = (contentWidth - (12 * (columns - 1))) / columns;
 
                       return ListView(
                         padding: const EdgeInsets.fromLTRB(18, 14, 18, 24),
@@ -292,7 +294,7 @@ class _ExplanationLanguageScreenState extends State<ExplanationLanguageScreen> {
                             ),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: gold,
                               fontSize: 26,
                               fontWeight: FontWeight.w800,
                               height: 1.3,
@@ -310,7 +312,7 @@ class _ExplanationLanguageScreenState extends State<ExplanationLanguageScreen> {
                             ),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              color: Color(0xFFC3D0EA),
+                              color: Colors.white70,
                               fontSize: 15,
                               height: 1.5,
                             ),
@@ -345,7 +347,7 @@ class _ExplanationLanguageScreenState extends State<ExplanationLanguageScreen> {
                               sinhala:
                               'ඉගෙන ගන්නා මාධ්‍යය සහ පැහැදිලි කරන භාෂාව වෙන වෙනම තෝරන්න පුළුවන්. උදාහරණයක් ලෙස, ඉංග්‍රීසි මාධ්‍යයෙන් Science ඉගෙනගෙන අමාරු පාඩමක් සිංහලෙන් හෝ දෙමළෙන් පැහැදිලි කරගන්න පුළුවන්.',
                               tamil:
-                              'படிப்பு மொழியும் விளக்க மொழியும் தனித்தனியாகத் தேர்ந்தெடுக்கலாம். உதாரணமாக, ஆங்கிலத்தில் Science படித்துவிட்டு கடினமான பாடத்தைத் தமிழிலோ சிங்களத்திலோ விளக்கச் சொல்லலாம்.',
+                              'படிப்பு மொழியும் விளக்க மொழியும் தனித்தனியாகத் தேர்ந்தெடுக்கலாம். உதாரணமாக, உதாரணமாக, ஆங்கிலத்தில் Science படித்துவிட்டு கடினமான பாடத்தைத் தமிழிலோ சிங்களத்திலோ விளக்கச் சொல்லலாம்.',
                             ),
                           ),
                           const SizedBox(height: 14),
@@ -359,7 +361,7 @@ class _ExplanationLanguageScreenState extends State<ExplanationLanguageScreen> {
                             ),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              color: Color(0xFFC3D0EA),
+                              color: Colors.white70,
                               fontSize: 13,
                               height: 1.5,
                             ),
@@ -372,10 +374,10 @@ class _ExplanationLanguageScreenState extends State<ExplanationLanguageScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(18, 12, 18, 18),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF07132F),
+                  decoration: BoxDecoration(
+                    color: background,
                     border: Border(
-                      top: BorderSide(color: Color(0xFF263960)),
+                      top: BorderSide(color: gold.withValues(alpha: 0.3)),
                     ),
                   ),
                   child: FilledButton.icon(
@@ -398,10 +400,10 @@ class _ExplanationLanguageScreenState extends State<ExplanationLanguageScreen> {
                       ),
                     ),
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF7546D8),
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: const Color(0xFF263451),
-                      disabledForegroundColor: const Color(0xFFABBCD8),
+                      backgroundColor: gold,
+                      foregroundColor: background,
+                      disabledBackgroundColor: panel,
+                      disabledForegroundColor: Colors.white54,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(17),
                       ),
@@ -433,30 +435,26 @@ class ExplanationLanguageCard extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  Color get _accent => switch (language.id) {
-    'sinhala' => const Color(0xFFB77AFF),
-    'english' => const Color(0xFF55B9FF),
-    'tamil' => const Color(0xFF39D5BD),
-    _ => const Color(0xFFB77AFF),
-  };
-
   @override
   Widget build(BuildContext context) {
+    const gold = Color(0xFFD4AF37);
+    const panel = Color(0xFF112A20);
+
     final displaySubtitle = subtitle ?? language.subtitle;
     final displayDescription = description ?? language.description;
 
     return Semantics(
       button: true,
       selected: selected,
-      label: language.title + '. ' + displaySubtitle,
+      label: '${language.title}. $displaySubtitle',
       child: Material(
         color: selected
-            ? _accent.withValues(alpha: 0.18)
-            : const Color(0xFF101F43),
+            ? gold.withValues(alpha: 0.22)
+            : panel,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(
-            color: selected ? _accent : const Color(0xFF263960),
+            color: selected ? gold : gold.withValues(alpha: 0.3),
             width: selected ? 2 : 1,
           ),
         ),
@@ -475,12 +473,12 @@ class ExplanationLanguageCard extends StatelessWidget {
                       width: 52,
                       height: 52,
                       decoration: BoxDecoration(
-                        color: _accent.withValues(alpha: 0.18),
+                        color: gold.withValues(alpha: 0.18),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Icon(
                         language.icon,
-                        color: _accent,
+                        color: gold,
                         size: 28,
                       ),
                     ),
@@ -488,7 +486,7 @@ class ExplanationLanguageCard extends StatelessWidget {
                       selected
                           ? Icons.check_circle_rounded
                           : Icons.radio_button_unchecked_rounded,
-                      color: selected ? _accent : const Color(0xFF8093B7),
+                      color: selected ? gold : Colors.white54,
                       size: 26,
                     ),
                   ],
@@ -506,8 +504,8 @@ class ExplanationLanguageCard extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   displaySubtitle,
-                  style: TextStyle(
-                    color: _accent,
+                  style: const TextStyle(
+                    color: gold,
                     fontSize: 15,
                     height: 1.4,
                     fontWeight: FontWeight.w700,
@@ -517,7 +515,7 @@ class ExplanationLanguageCard extends StatelessWidget {
                 Text(
                   displayDescription,
                   style: const TextStyle(
-                    color: Color(0xFFC3D0EA),
+                    color: Colors.white70,
                     fontSize: 14,
                     height: 1.5,
                   ),
@@ -538,19 +536,22 @@ class _StudyMediumNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const gold = Color(0xFFD4AF37);
+    const panel = Color(0xFF112A20);
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF14264B),
+        color: panel,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFF29436E)),
+        border: Border.all(color: gold.withValues(alpha: 0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Icon(
             Icons.smart_toy_rounded,
-            color: Color(0xFF70CFFF),
+            color: gold,
             size: 24,
           ),
           const SizedBox(width: 12),
@@ -558,7 +559,7 @@ class _StudyMediumNote extends StatelessWidget {
             child: Text(
               text,
               style: const TextStyle(
-                color: Color(0xFFD4E1F7),
+                color: Colors.white,
                 fontSize: 14,
                 height: 1.5,
               ),
@@ -581,18 +582,21 @@ class _InfoChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const gold = Color(0xFFD4AF37);
+    const panel = Color(0xFF112A20);
+
     return Container(
       constraints: const BoxConstraints(maxWidth: 320),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
-        color: const Color(0xFF192B55),
+        color: panel,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF365393)),
+        border: Border.all(color: gold.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 19, color: const Color(0xFF70CFFF)),
+          Icon(icon, size: 19, color: gold),
           const SizedBox(width: 8),
           Flexible(
             child: Text(
@@ -600,7 +604,7 @@ class _InfoChip extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
               style: const TextStyle(
-                color: Color(0xFFE0E9FA),
+                color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),

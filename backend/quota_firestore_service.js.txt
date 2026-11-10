@@ -1,0 +1,391 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:payhere_mobilesdk_flutter/payhere_mobilesdk_flutter.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'payhere_web_helper.dart';
+
+class PremiumPackagesScreen extends StatefulWidget {
+  const PremiumPackagesScreen({super.key});
+
+  @override
+  State<PremiumPackagesScreen> createState() => _PremiumPackagesScreenState();
+}
+
+class _PremiumPackagesScreenState extends State<PremiumPackagesScreen> {
+  int selected = 0;
+
+  static const titles = <String>[
+    '5 ශිෂ්‍යත්වය – 9 ශ්‍රේණිය',
+    'සාමාන්‍ය පෙළ (O/L)',
+    'උසස් පෙළ (A/L)',
+    'Top-up 25',
+    'Top-up 50',
+    'Top-up 100',
+  ];
+  static const prices = <int>[1500, 2000, 2500, 250, 450, 800];
+  static const counts = <int>[150, 150, 150, 25, 50, 100];
+
+  // --- ගෙවීම සාර්ථක වූ පසු ඩිජිට්ල් ගිණුමට Coins එකතු කිරීම ---
+  Future<void> _addCoinsToUserAccount(String packageName, int packageCoins) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
+
+      final userRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+      await userRef.set({
+        'quota': {
+          'paidBalance': FieldValue.increment(packageCoins),
+          'lastPaymentDate': FieldValue.serverTimestamp(),
+          'activePackage': packageName,
+        }
+      }, SetOptions(merge: true));
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('ගෙවීම සාර්ථකයි! AI ප්‍රශ්න $packageCoins ක් ඔබේ ගිණුමට එකතු විය. 🎉'),
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 4),
+        ),
+      );
+    } catch (e) {
+      debugPrint("Error updating coins: $e");
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('ගෙවීම සාර්ථක වුවද ප්‍රශ්න යාවත්කාලීන කිරීමේදී දෝෂයක් විය. කරුණාකර අප හා සම්බන්ධ වන්න.'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    }
+  }
+
+  void _startPayHerePayment() {
+    final String package = titles[selected];
+    final double price = prices[selected].toDouble();
+    final int coinCount = counts[selected];
+
+    final user = FirebaseAuth.instance.currentUser;
+    final String userEmail = user?.email ?? "ajafernando67@gmail.com";
+    final String userId = user?.uid ?? "unknown_user";
+
+    final String orderId = "ZINGACC_${DateTime.now().millisecondsSinceEpoch}";
+
+    // වෙබ් සඳහා නම් අපේ වෙබ් හෙල්පර් ෆන්ෂන් එක කෝල් කරන්න
+    if (kIsWeb) {
+      startPayHereWebCheckout(
+        merchantId: '1238538',
+        orderId: orderId,
+        amount: price,
+        currency: 'LKR',
+        firstName: 'Ajantha',
+        lastName: 'Fernando',
+        email: userEmail,
+        phone: '0786346064',
+        address: '10 D 03, National Housing Scheme',
+        city: 'Raddolugama',
+        country: 'Sri Lanka',
+        returnUrl: 'https://sandbox.payhere.lk',
+        cancelUrl: 'https://sandbox.payhere.lk',
+        notifyUrl: 'https://sandbox.payhere.lk',
+        isSandbox: true,
+      );
+      return;
+    }
+
+    // మొබයිල් ඇප් සඳහා PayHere Mobile SDK එක පාවිච්චි කිරීම
+    Map paymentObject = {
+      "sandbox": true,
+      "merchant_id": "1238538",
+      "merchant_secret": "Mjk1Mzg0NjAxMTEwOTUxODg4NzM4NzM4MjM3NDcwNDcwNDE2NDE2MDM1NDcwNDExNDEyMDY1MDY1MDI=",
+      "notify_url": "https://sandbox.payhere.lk",
+      "order_id": orderId,
+      "items": package,
+      "amount": price,
+      "currency": "LKR",
+      "first_name": "Ajantha",
+      "last_name": "Fernando",
+      "email": userEmail,
+      "phone": "0786346064",
+      "address": "10 D 03, National Housing Scheme",
+      "city": "Raddolugama",
+      "country": "Sri Lanka",
+      "delivery_address": "10 D 03, National Housing Scheme",
+      "delivery_city": "Raddolugama",
+      "delivery_country": "Sri Lanka",
+      "custom_1": userId,
+      "custom_2": package
+    };
+
+    PayHere.startPayment(
+        paymentObject,
+            (paymentId) {
+          debugPrint("PayHere Success. Payment ID: $paymentId");
+          _addCoinsToUserAccount(package, coinCount);
+        },
+            (error) {
+          debugPrint("PayHere Error: $error");
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('ගෙවීම අසාර්ථකයි. කරුණාකර නැවත උත්සාහ කරන්න.'), backgroundColor: Colors.red),
+          );
+        },
+            () {
+          debugPrint("PayHere Canceled");
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('ගෙවීම අවලංගු කරන ලදී.')),
+          );
+        }
+    );
+  }
+
+  Future<void> _sendWhatsAppMessage() async {
+    final String package = titles[selected];
+    final int price = prices[selected];
+
+    final user = FirebaseAuth.instance.currentUser;
+    final String userEmail = user?.email ?? "Unknown Email";
+
+    final String message =
+        "ආයුබෝවන්! මම Zingacc Learn AI හි '$package' (රු. $price) පැකේජය මිලදී ගැනීමට මුදල් තැන්පත් කළෙමි.\n\nමගේ ගිණුමේ Email ලිපිනය: $userEmail\n\nමගේ ගෙවීම් රිසිට්පත මේ සමඟ එවා ඇත.";
+
+    final Uri whatsappUri = Uri.parse("https://api.whatsapp.com/send?phone=94786346064&text=${Uri.encodeComponent(message)}");
+
+    try {
+      if (await canLaunchUrl(whatsappUri)) {
+        await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('WhatsApp විවෘත කිරීමට නොහැකි විය. කරුණාකර 0786346064 අංකයට රිසිට්පත එවන්න.')),
+        );
+      }
+    } catch (e) {
+      debugPrint("WhatsApp Error: $e");
+    }
+  }
+
+  Widget packageCard(int index) {
+    final chosen = selected == index;
+    return Card(
+      color: chosen ? const Color(0xFF28477B) : const Color(0xFF142B56),
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+        side: BorderSide(
+          color: chosen ? const Color(0xFF70CFFF) : Colors.transparent,
+          width: 2,
+        ),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => setState(() => selected = index),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(
+                chosen ? Icons.radio_button_checked : Icons.radio_button_off,
+                color: const Color(0xFF70CFFF),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(titles[index],
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 5),
+                    Text(
+                      '${counts[index]} AI ප්‍රශ්න · ${index < 3 ? 'දින 30' : 'අවසන් වන තුරු'}',
+                      style: const TextStyle(
+                          color: Color(0xFFD2DDF5), fontSize: 13),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text('රු. ${prices[index]}',
+                  style: const TextStyle(
+                      color: Color(0xFF70CFFF),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF07132F),
+      appBar: AppBar(
+        title: const Text('Zingacc සාමාජිකත්වය', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF07132F),
+        foregroundColor: Colors.white,
+        centerTitle: true,
+      ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 620),
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(18, 18, 18, 40),
+            children: [
+              const Icon(Icons.school_rounded, color: Color(0xFF70CFFF), size: 54),
+              const SizedBox(height: 10),
+              const Text('ඔබේ ඉගෙනුම් පැකේජය තෝරන්න',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              const Text(
+                'මාසික පැකේජයකට AI ප්‍රශ්න 150ක් හිමිවේ.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Color(0xFFD2DDF5), fontSize: 15),
+              ),
+              const SizedBox(height: 24),
+
+              const Text('මාසික පැකේජ',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              for (var i = 0; i < 3; i++) packageCard(i),
+
+              const SizedBox(height: 18),
+              const Text('අමතර ප්‍රශ්න (Top-up)',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              for (var i = 3; i < 6; i++) packageCard(i),
+
+              const SizedBox(height: 24),
+
+              FilledButton.icon(
+                onPressed: _startPayHerePayment,
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF7546D8),
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size.fromHeight(56),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                icon: const Icon(Icons.credit_card_rounded, size: 24),
+                label: const Text(
+                  'Online ගෙවන්න (Auto-Activate)',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+              const Center(
+                child: Text('--- හෝ ---', style: TextStyle(color: Color(0xFF8093B7), fontSize: 14)),
+              ),
+              const SizedBox(height: 30),
+
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFF101F43),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFF263960)),
+                ),
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('බැංකු තැන්පතු සඳහා:',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 16),
+                    _bankDetailRow('බැංකුව', 'National Savings Bank'),
+                    const Divider(color: Color(0xFF263960), height: 20),
+                    _bankDetailRow('ගිණුම් හිමියා', 'M.A.M. FERNANDO'),
+                    const Divider(color: Color(0xFF263960), height: 20),
+                    _bankDetailRow('ශාඛාව', 'Raddolugama'),
+                    const Divider(color: Color(0xFF263960), height: 20),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text('ගිණුම් අංකය', style: TextStyle(color: Color(0xFF8093B7), fontSize: 13)),
+                            SizedBox(height: 4),
+                            Text('300087853563', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: 1.2)),
+                          ],
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Clipboard.setData(const ClipboardData(text: '300087853563'));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('ගිණුම් අංකය Copy කරගන්නා ලදී!'), backgroundColor: Colors.green),
+                            );
+                          },
+                          icon: const Icon(Icons.copy_rounded, color: Color(0xFF70CFFF)),
+                          tooltip: 'Copy',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              FilledButton.icon(
+                onPressed: _sendWhatsAppMessage,
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF25D366),
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size.fromHeight(56),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                icon: const Icon(Icons.send_rounded, size: 24),
+                label: const Text(
+                  'රිසිට්පත WhatsApp කරන්න',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _bankDetailRow(String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 100,
+          child: Text(label, style: const TextStyle(color: Color(0xFF8093B7), fontSize: 14)),
+        ),
+        Expanded(
+          child: Text(value, style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
+        ),
+      ],
+    );
+  }
+}

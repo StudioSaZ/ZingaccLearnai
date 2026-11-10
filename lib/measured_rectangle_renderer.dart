@@ -35,17 +35,24 @@ class _MeasuredRectanglePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // අර මගෑරිලා තිබුණු ගුණ කිරීමේ ලකුණු (*) 4ම මෙතන නිවැරදි කරලා තියෙනවා
     final availableWidth = size.width * 0.75;
     final availableHeight = size.height * 0.70;
+
     final scale = math.min(
       availableWidth / rectWidth,
       availableHeight / rectHeight,
     );
+
     final drawnWidth = rectWidth * scale;
     final drawnHeight = rectHeight * scale;
+
     final center = Offset(size.width / 2, size.height / 2);
+
+    const gold = Color(0xFFD4AF37); // අපේ Luxury Gold පාට
+
     final paint = Paint()
-      ..color = Colors.blue.shade700
+      ..color = gold.withOpacity(0.8) // පරණ නිල් පාට වෙනුවට Gold
       ..strokeWidth = 2.5
       ..style = PaintingStyle.stroke;
 
@@ -62,5 +69,5 @@ class _MeasuredRectanglePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _MeasuredRectanglePainter oldDelegate) =>
       oldDelegate.rectWidth != rectWidth ||
-      oldDelegate.rectHeight != rectHeight;
+          oldDelegate.rectHeight != rectHeight;
 }

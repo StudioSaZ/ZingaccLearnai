@@ -22,7 +22,6 @@ class SubjectSelectionScreen extends StatefulWidget {
 class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
   String? _selectedSubject;
 
-  // Updated with all O/L Subjects
   static const List<_SubjectItem> _olSubjects = [
     _SubjectItem('mathematics', 'Mathematics', Icons.calculate_rounded),
     _SubjectItem('science', 'Science', Icons.science_rounded),
@@ -48,17 +47,6 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
   static const List<_SubjectItem> _scholarshipSubjects = [
     _SubjectItem('scholarship_paper_1', 'Scholarship - Paper I', Icons.psychology_alt_rounded),
     _SubjectItem('scholarship_paper_2', 'Scholarship - Paper II', Icons.menu_book_rounded),
-  ];
-
-  static const List<Color> _cardColors = [
-    Color(0xFFB77AFF),
-    Color(0xFF39D5BD),
-    Color(0xFF55B9FF),
-    Color(0xFFFF80B5),
-    Color(0xFFFFC267),
-    Color(0xFF91A2FF),
-    Color(0xFF58DBEE),
-    Color(0xFFA9DE70),
   ];
 
   String _label(String sinhala, String english, String tamil) {
@@ -166,11 +154,15 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
         ? _scholarshipSubjects
         : _olSubjects;
 
+    const background = Color(0xFF0A1C14);
+    const gold = Color(0xFFD4AF37);
+    const panel = Color(0xFF112A20);
+
     return Scaffold(
-      backgroundColor: const Color(0xFF07132F),
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF07132F),
-        foregroundColor: Colors.white,
+        backgroundColor: background,
+        foregroundColor: gold,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
@@ -189,7 +181,8 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       final columns = constraints.maxWidth >= 700 ? 2 : 1;
-                      final cardWidth = (constraints.maxWidth - 36 - 12 * (columns - 1)) / columns;
+                      // නිවැරදි කරන ලද කාඩ් පළල ගණනය කිරීම (Card width calculation)
+                      final cardWidth = (constraints.maxWidth - 36 - (12 * (columns - 1))) / columns;
 
                       return ListView(
                         padding: const EdgeInsets.fromLTRB(18, 14, 18, 24),
@@ -200,15 +193,15 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
                             spacing: 9,
                             runSpacing: 9,
                             children: [
-                              _chip(_levelName, Icons.school_rounded, const Color(0xFFB77AFF)),
-                              _chip(_mediumName, Icons.language_rounded, const Color(0xFF55B9FF)),
+                              _chip(_levelName, Icons.school_rounded, gold),
+                              _chip(_mediumName, Icons.language_rounded, gold),
                             ],
                           ),
                           const SizedBox(height: 24),
                           Text(
                             _label('ඔබේ විෂය තෝරන්න', 'Select Your Subject', 'உங்கள் பாடத்தைத் தேர்ந்தெடுக்கவும்'),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: Colors.white),
+                            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: gold),
                           ),
                           const SizedBox(height: 8),
                           Text(
@@ -218,7 +211,7 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
                               'நீங்கள் படிக்க விரும்பும் பாடத்தைத் தேர்ந்தெடுக்கவும்.',
                             ),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 16, height: 1.5, color: Color(0xFFC3D0EA)),
+                            style: const TextStyle(fontSize: 16, height: 1.5, color: Colors.white70),
                           ),
                           const SizedBox(height: 22),
                           Wrap(
@@ -230,7 +223,7 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
                                   width: cardWidth,
                                   child: _subjectCard(
                                     subjects[index],
-                                    _cardColors[index % _cardColors.length],
+                                    gold,
                                   ),
                                 ),
                             ],
@@ -243,17 +236,17 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(18, 12, 18, 18),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF07132F),
-                    border: Border(top: BorderSide(color: Color(0xFF263960))),
+                  decoration: BoxDecoration(
+                    color: background,
+                    border: Border(top: BorderSide(color: gold.withValues(alpha: 0.3))),
                   ),
                   child: FilledButton(
                     onPressed: _selectedSubject == null || widget.onSubjectSelected == null ? null : _continue,
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF7546D8),
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: const Color(0xFF263451),
-                      disabledForegroundColor: const Color(0xFFABBCD8),
+                      backgroundColor: gold,
+                      foregroundColor: background,
+                      disabledBackgroundColor: panel,
+                      disabledForegroundColor: Colors.white54,
                       minimumSize: const Size.fromHeight(54),
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
@@ -290,9 +283,9 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: const Color(0xFF112A20),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withValues(alpha: 0.35)),
+        border: Border.all(color: color.withValues(alpha: 0.5)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -300,7 +293,7 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
           Icon(icon, size: 19, color: color),
           const SizedBox(width: 8),
           Flexible(
-            child: Text(text, style: const TextStyle(color: Color(0xFFE0E9FA), fontSize: 14, fontWeight: FontWeight.w700)),
+            child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
           ),
         ],
       ),
@@ -312,10 +305,10 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
     return Semantics(
       selected: selected,
       child: Material(
-        color: selected ? accent.withValues(alpha: 0.18) : const Color(0xFF101F43),
+        color: selected ? accent.withValues(alpha: 0.22) : const Color(0xFF112A20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(19),
-          side: BorderSide(color: selected ? accent : const Color(0xFF263960), width: selected ? 2 : 1),
+          side: BorderSide(color: selected ? accent : accent.withValues(alpha: 0.3), width: selected ? 2 : 1),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -347,7 +340,7 @@ class _SubjectSelectionScreenState extends State<SubjectSelectionScreen> {
                 const SizedBox(width: 9),
                 Icon(
                   selected ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
-                  color: selected ? accent : const Color(0xFF8093B7),
+                  color: selected ? accent : Colors.white54,
                   size: 25,
                 ),
               ],

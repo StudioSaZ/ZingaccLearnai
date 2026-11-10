@@ -62,20 +62,25 @@ class _LessonPracticeState extends State<_LessonPractice> {
   bool get ta =>
       widget.language == 'தமிழ்' || widget.language.toLowerCase() == 'tamil';
   String t(String s, String e, String a) => si ? s : (ta ? a : e);
+
   @override
   Widget build(BuildContext context) {
+    const gold = Color(0xFFD4AF37);
+    const panel = Color(0xFF112A20);
     final q = widget.check;
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-          color: const Color(0xFF173665),
-          borderRadius: BorderRadius.circular(14)),
+          color: panel,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: gold.withOpacity(0.3))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
             t('දැන් ඔබ උත්සාහ කරන්න', 'Try it yourself',
                 'நீங்களே முயற்சி செய்யுங்கள்'),
             style: const TextStyle(
-                color: Color(0xFF16D9FF),
+                color: gold,
                 fontWeight: FontWeight.bold,
                 fontSize: 16)),
         const SizedBox(height: 10),
@@ -87,7 +92,7 @@ class _LessonPracticeState extends State<_LessonPractice> {
                 (i) => RadioListTile<int>(
               dense: true,
               contentPadding: EdgeInsets.zero,
-              activeColor: const Color(0xFF16D9FF),
+              activeColor: gold,
               title: Text(q.options[i],
                   style: const TextStyle(color: Colors.white)),
               value: i,
@@ -97,11 +102,15 @@ class _LessonPracticeState extends State<_LessonPractice> {
             )),
         const SizedBox(height: 8),
         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: gold,
+            foregroundColor: const Color(0xFF0A1C14),
+          ),
           onPressed: selected == null || submitted
               ? null
               : () => setState(() => submitted = true),
           child: Text(t('පිළිතුර පරීක්ෂා කරන්න', 'Check answer',
-              'விடையைச் சரிபார்க்கவும்')),
+              'விடையைச் சரிபார்க்கவும்'), style: const TextStyle(fontWeight: FontWeight.bold)),
         ),
         if (submitted) ...[
           const SizedBox(height: 10),
@@ -115,8 +124,8 @@ class _LessonPracticeState extends State<_LessonPractice> {
                   'நல்ல முயற்சி. சரியான விடையைப் பார்ப்போம்.'),
               style: TextStyle(
                   color: selected == q.correct
-                      ? const Color(0xFF8CF2B1)
-                      : const Color(0xFFFFD58B),
+                      ? Colors.greenAccent
+                      : Colors.orangeAccent,
                   fontWeight: FontWeight.bold)),
           const SizedBox(height: 6),
           Text(
@@ -125,14 +134,15 @@ class _LessonPracticeState extends State<_LessonPractice> {
                   color: Colors.white, fontWeight: FontWeight.bold)),
           const SizedBox(height: 6),
           Text(t(q.siWhy, q.enWhy, q.taWhy),
-              style: const TextStyle(color: Colors.white, height: 1.5)),
+              style: const TextStyle(color: Colors.white70, height: 1.5)),
           TextButton(
               onPressed: () => setState(() {
                 selected = null;
                 submitted = false;
               }),
               child: Text(t(
-                  'නැවත උත්සාහ කරන්න', 'Try again', 'மீண்டும் முயற்சி செய்க'))),
+                  'නැවත උත්සාහ කරන්න', 'Try again', 'மீண்டும் முயற்சி செய்க'),
+                  style: const TextStyle(color: gold))),
         ],
       ]),
     );
@@ -147,6 +157,7 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
   bool get _ta =>
       widget.language == 'தமிழ்' || widget.language.toLowerCase() == 'tamil';
   String _t(String si, String en, String ta) => _si ? si : (_ta ? ta : en);
+
   static const Map<String, _QuickCheck> _gradeFiveChecks = {
     'ස්ථානීය අගය': _QuickCheck(
         '7,364 හි 3 ඉලක්කමේ ස්ථානීය අගය කීයද?',
@@ -266,6 +277,7 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
         'Read 35 + 28 = 63 pages; 120 − 63 = 57 remain.',
         'படித்தது 35 + 28 = 63; மீதி 120 − 63 = 57.'),
   };
+
   static const Map<String, _QuickCheck> _moreGradeFiveChecks = {
     'ජීවීන් හඳුනාගැනීම': _QuickCheck(
         'ජීවියෙකුට පොදුවේ ඇති ලක්ෂණයක් කුමක්ද?',
@@ -587,6 +599,7 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
     _Category(
         'religion', 'ආගමික අධ්‍යාපනය', 'Religious Studies', 'சமயக் கல்வி'),
   ];
+
   static const _primaryEntries = <_Entry>[
     _Entry(
         'mathematics',
@@ -1219,6 +1232,7 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
         'පෙළපොතේ සඳහන් ඉගැන්වීම හා මූලාශ්‍රය හඳුනාගන්න.',
         'பாடநூலில் கூறிய போதனையையும் ஆதாரத்தையும் கண்டறிக.'),
   ];
+
   bool get _isGradeFive {
     final level = widget.selectedLevel.toLowerCase().trim();
     return level == 'grade_5_scholarship' ||
@@ -1260,7 +1274,10 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const bg = Color(0xFF06112D);
+    const background = Color(0xFF0A1C14); // Deep Dark Green
+    const panel = Color(0xFF112A20); // Dark Green Panel
+    const gold = Color(0xFFD4AF37); // Premium Gold
+
     final query = _search.text.trim().toLowerCase();
     final library = _isGradeFive ? _primaryEntries : _entries;
     final shown = library.where((e) {
@@ -1278,13 +1295,17 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
         e.taExample
       ].any((v) => v.toLowerCase().contains(query));
     }).toList();
+
     return Scaffold(
-      backgroundColor: bg,
+      backgroundColor: background,
       appBar: AppBar(
-          backgroundColor: bg,
-          foregroundColor: Colors.white,
+          backgroundColor: background,
+          foregroundColor: gold,
+          centerTitle: true,
+          elevation: 0,
           title: Text(_t(
-              'දැනුම් පුස්තකාලය', 'Knowledge Library', 'அறிவுக் களஞ்சியம்'))),
+              'දැනුම් පුස්තකාලය', 'Knowledge Library', 'அறிவுக் களஞ்சியம்'),
+              style: const TextStyle(fontWeight: FontWeight.bold, color: gold))),
       body: SafeArea(
           child: Center(
               child: ConstrainedBox(
@@ -1293,12 +1314,9 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
                   Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                          gradient: const LinearGradient(colors: [
-                            Color(0xFF7028FF),
-                            Color(0xFF1769FF),
-                            Color(0xFF00BFEA)
-                          ]),
-                          borderRadius: BorderRadius.circular(18)),
+                          color: panel,
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(color: gold.withOpacity(0.4))),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -1314,7 +1332,7 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
                                         ? 'தரம் 5 • கணிதம் • சூழல் • மொழிகள் • கலை'
                                         : 'சூத்திரங்கள் • வரலாறு • இசை • நடனம் • மேலும் பல'),
                                 style: const TextStyle(
-                                    color: Colors.white,
+                                    color: gold,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold)),
                             const SizedBox(height: 7),
@@ -1330,7 +1348,7 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
                                         ? 'தரம் 5 தொடக்கப் பாடங்கள்; முழு அதிகாரப்பூர்வப் பாடத்திட்டம் அல்ல.'
                                         : 'இது தொடக்க நூலகம்; எல்லா தரங்களின் முழுப் பாடத்திட்டமும் இன்னும் சேர்க்கப்படவில்லை.'),
                                 style:
-                                const TextStyle(color: Colors.white, height: 1.4)),
+                                const TextStyle(color: Colors.white70, height: 1.4)),
                           ])),
                   const SizedBox(height: 16),
                   TextField(
@@ -1339,26 +1357,34 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                           prefixIcon:
-                          const Icon(Icons.search, color: Color(0xFF16D9FF)),
+                          const Icon(Icons.search, color: gold),
                           hintText: _t(
                               'මාතෘකාවක් සොයන්න', 'Search topics', 'தலைப்பைத் தேடுக'),
-                          hintStyle: const TextStyle(color: Color(0xFFAFC3E8)),
+                          hintStyle: const TextStyle(color: Colors.white54),
                           filled: true,
-                          fillColor: const Color(0xFF102653),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14)))),
+                          fillColor: panel,
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              borderSide: BorderSide(color: gold.withOpacity(0.3))),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              borderSide: const BorderSide(color: gold, width: 1.5)))),
                   const SizedBox(height: 12),
                   DropdownButtonFormField<String>(
                       value: _category,
-                      dropdownColor: const Color(0xFF102653),
+                      dropdownColor: panel,
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                           filled: true,
-                          fillColor: const Color(0xFF102653),
+                          fillColor: panel,
                           labelText: _t('විෂය', 'Subject', 'பாடம்'),
-                          labelStyle: const TextStyle(color: Color(0xFFAFC3E8)),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14))),
+                          labelStyle: const TextStyle(color: gold),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              borderSide: BorderSide(color: gold.withOpacity(0.3))),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              borderSide: const BorderSide(color: gold, width: 1.5))),
                       items: [
                         DropdownMenuItem(
                             value: 'all',
@@ -1376,7 +1402,7 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
                   Text(
                       _t('මාතෘකා: ${shown.length}', 'Topics: ${shown.length}',
                           'தலைப்புகள்: ${shown.length}'),
-                      style: const TextStyle(color: Color(0xFFB8D7FF))),
+                      style: const TextStyle(color: gold, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   if (shown.isEmpty)
                     Padding(
@@ -1386,22 +1412,23 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
                                 'මෙම සෙවීමට තවම අන්තර්ගතයක් නැත.',
                                 'No starter content matches this search.',
                                 'இந்தத் தேடலுக்கான உள்ளடக்கம் இன்னும் இல்லை.'),
-                            style: const TextStyle(color: Colors.white))),
+                            style: const TextStyle(color: Colors.white70))),
                   ...shown.map((e) => Card(
-                      color: const Color(0xFF102653),
+                      color: panel,
                       margin: const EdgeInsets.only(bottom: 12),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
+                          borderRadius: BorderRadius.circular(16),
+                          side: BorderSide(color: gold.withOpacity(0.3))),
                       child: ExpansionTile(
-                        iconColor: const Color(0xFF16D9FF),
-                        collapsedIconColor: Colors.white,
+                        iconColor: gold,
+                        collapsedIconColor: Colors.white70,
                         title: Text(_t(e.siTitle, e.enTitle, e.taTitle),
                             style: const TextStyle(
                                 color: Colors.white, fontWeight: FontWeight.bold)),
                         subtitle: Text(
                             _t('විස්තරය සහ උදාහරණය', 'Explanation and example',
                                 'விளக்கமும் எடுத்துக்காட்டும்'),
-                            style: const TextStyle(color: Color(0xFFAFC3E8))),
+                            style: const TextStyle(color: Colors.white54)),
                         children: [
                           Padding(
                               padding: const EdgeInsets.fromLTRB(16, 0, 16, 18),
@@ -1418,7 +1445,7 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
                                         _t('මතක තබාගන්න', 'Remember',
                                             'நினைவில் கொள்ளுங்கள்'),
                                         style: const TextStyle(
-                                            color: Color(0xFF16D9FF),
+                                            color: gold,
                                             fontWeight: FontWeight.bold)),
                                     const SizedBox(height: 4),
                                     Text(
@@ -1427,11 +1454,11 @@ class _FormulaLibraryScreenState extends State<FormulaLibraryScreen> {
                                             'Understand the idea first, then study the example and solve the practice question yourself.',
                                             'முதலில் கருத்தைப் புரிந்துகொண்டு, எடுத்துக்காட்டைப் பார்த்து பயிற்சியை நீங்களே செய்யுங்கள்.'),
                                         style: const TextStyle(
-                                            color: Color(0xFFAFC3E8), height: 1.5)),
+                                            color: Colors.white70, height: 1.5)),
                                     const SizedBox(height: 10),
                                     Text(_t('උදාහරණය:', 'Example:', 'எடுத்துக்காட்டு:'),
                                         style: const TextStyle(
-                                            color: Color(0xFF16D9FF),
+                                            color: gold,
                                             fontWeight: FontWeight.bold)),
                                     const SizedBox(height: 4),
                                     Text(_t(e.siExample, e.enExample, e.taExample),

@@ -71,16 +71,7 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
     ],
   };
 
-  static const List<Color> _accents = [
-    Color(0xFFB77AFF),
-    Color(0xFF55B9FF),
-    Color(0xFF39D5BD),
-    Color(0xFFFF80B5),
-    Color(0xFFFFC267),
-    Color(0xFF91A2FF),
-    Color(0xFF58DBEE),
-    Color(0xFFA9DE70),
-  ];
+  static const Color _gold = Color(0xFFD4AF37); // Premium Gold
 
   String _label(String sinhala, String english, String tamil) {
     final medium = widget.selectedMedium.toLowerCase();
@@ -165,17 +156,20 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
   Widget build(BuildContext context) {
     final subjects = subjectsByStream[widget.selectedStream] ?? const <_ALSubject>[];
 
+    const background = Color(0xFF0A1C14); // Deep Dark Green
+    const panel = Color(0xFF112A20); // Dark Green Panel
+
     return Scaffold(
-      backgroundColor: const Color(0xFF07132F),
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF07132F),
-        foregroundColor: Colors.white,
+        backgroundColor: background,
+        foregroundColor: _gold,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         title: const Text(
           'Zingacc Learn AI',
-          style: TextStyle(fontWeight: FontWeight.w800),
+          style: TextStyle(fontWeight: FontWeight.w800, color: _gold),
         ),
       ),
       body: SafeArea(
@@ -188,7 +182,7 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       final columns = constraints.maxWidth >= 700 ? 2 : 1;
-                      // Fixed syntax error here
+                      // මෙතන කැඩිලා තිබුණු ගුණ කිරීමේ ලකුණ (*) නිවැරදි කරලා තියෙනවා
                       final cardWidth = (constraints.maxWidth - 36 - 12 * (columns - 1)) / columns;
 
                       return ListView(
@@ -200,16 +194,16 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                             spacing: 9,
                             runSpacing: 9,
                             children: [
-                              _chip('A/L', Icons.school_rounded, const Color(0xFFB77AFF)),
-                              _chip(mediumName, Icons.language_rounded, const Color(0xFF55B9FF)),
-                              _chip(streamName, Icons.account_tree_rounded, const Color(0xFF39D5BD)),
+                              _chip('A/L', Icons.school_rounded, _gold),
+                              _chip(mediumName, Icons.language_rounded, _gold),
+                              _chip(streamName, Icons.account_tree_rounded, _gold),
                             ],
                           ),
                           const SizedBox(height: 24),
                           Text(
                             _label('ඔබේ විෂය තෝරන්න', 'Select Your Subject', 'உங்கள் பாடத்தைத் தேர்ந்தெடுக்கவும்'),
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: _gold,
                               fontSize: 26,
                               fontWeight: FontWeight.w800,
                             ),
@@ -222,7 +216,7 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                               'நீங்கள் படிக்க விரும்பும் பாடத்தைத் தேர்ந்தெடுக்கவும்.',
                             ),
                             style: const TextStyle(
-                              color: Color(0xFFC3D0EA),
+                              color: Colors.white70,
                               fontSize: 16,
                               height: 1.5,
                             ),
@@ -232,9 +226,9 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                             Container(
                               padding: const EdgeInsets.all(18),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF101F43),
+                                color: panel,
                                 borderRadius: BorderRadius.circular(18),
-                                border: Border.all(color: const Color(0xFF263960)),
+                                border: Border.all(color: _gold.withOpacity(0.4)),
                               ),
                               child: Text(
                                 _label(
@@ -243,7 +237,7 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                                   'இந்தத் துறைக்கு பாடங்கள் கட்டமைக்கப்படவில்லை.',
                                 ),
                                 style: const TextStyle(
-                                  color: Color(0xFFD4E1F7),
+                                  color: Colors.white,
                                   fontSize: 15,
                                   height: 1.5,
                                 ),
@@ -258,7 +252,7 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                                   width: cardWidth,
                                   child: _subjectCard(
                                     subjects[index],
-                                    _accents[index % _accents.length],
+                                    _gold,
                                   ),
                                 ),
                             ],
@@ -267,14 +261,14 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF14264B),
+                              color: panel,
                               borderRadius: BorderRadius.circular(18),
-                              border: Border.all(color: const Color(0xFF29436E)),
+                              border: Border.all(color: _gold.withOpacity(0.4)),
                             ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(Icons.info_outline_rounded, color: Color(0xFF70CFFF), size: 23),
+                                const Icon(Icons.info_outline_rounded, color: _gold, size: 23),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Text(
@@ -284,7 +278,7 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                                       'இந்தப் பட்டியல் பயன்பாட்டில் படிப்பதற்கு ஒரு பாடத்தைத் தேர்ந்தெடுப்பதற்கானது. இது பரீட்சை பாட சேர்க்கைகளை சரிபார்க்காது.',
                                     ),
                                     style: const TextStyle(
-                                      color: Color(0xFFD4E1F7),
+                                      color: Colors.white70,
                                       fontSize: 14,
                                       height: 1.5,
                                     ),
@@ -301,17 +295,17 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(18, 12, 18, 18),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF07132F),
-                    border: Border(top: BorderSide(color: Color(0xFF263960))),
+                  decoration: BoxDecoration(
+                    color: background,
+                    border: Border(top: BorderSide(color: _gold.withOpacity(0.3))),
                   ),
                   child: FilledButton(
                     onPressed: selectedSubject == null ? null : continueToLanguage,
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF7546D8),
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: const Color(0xFF263451),
-                      disabledForegroundColor: const Color(0xFFABBCD8),
+                      backgroundColor: _gold,
+                      foregroundColor: background,
+                      disabledBackgroundColor: panel,
+                      disabledForegroundColor: Colors.white54,
                       minimumSize: const Size.fromHeight(54),
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
@@ -351,9 +345,9 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: const Color(0xFF112A20),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withValues(alpha: 0.35)),
+        border: Border.all(color: color.withOpacity(0.5)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -364,7 +358,7 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
             child: Text(
               text,
               style: const TextStyle(
-                color: Color(0xFFE0E9FA),
+                color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
@@ -381,11 +375,11 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
     return Semantics(
       selected: selected,
       child: Material(
-        color: selected ? accent.withValues(alpha: 0.18) : const Color(0xFF101F43),
+        color: selected ? accent.withOpacity(0.22) : const Color(0xFF112A20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(19),
           side: BorderSide(
-            color: selected ? accent : const Color(0xFF263960),
+            color: selected ? accent : accent.withOpacity(0.3),
             width: selected ? 2 : 1,
           ),
         ),
@@ -404,7 +398,7 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                   width: 46,
                   height: 46,
                   decoration: BoxDecoration(
-                    color: accent.withValues(alpha: 0.18),
+                    color: accent.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Icon(item.icon, color: accent, size: 25),
@@ -424,7 +418,7 @@ class _ALSubjectSelectionScreenState extends State<ALSubjectSelectionScreen> {
                 const SizedBox(width: 9),
                 Icon(
                   selected ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
-                  color: selected ? accent : const Color(0xFF8093B7),
+                  color: selected ? accent : Colors.white54,
                   size: 24,
                 ),
               ],

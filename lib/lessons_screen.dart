@@ -240,6 +240,7 @@ class LessonsScreen extends StatelessWidget {
       'Data Representation and Prediction',
     ],
   };
+
   // Existing Science lesson lists preserved.
   static const Map<String, List<String>> _scienceLessons = {
     'grade_6': [
@@ -315,6 +316,7 @@ class LessonsScreen extends StatelessWidget {
       'Sustainable Use of Natural Resources',
     ],
   };
+
   List<String> get lessons {
     if (selectedSubject == 'mathematics') {
       return _mathematicsLessons[selectedLevel] ?? const [];
@@ -341,6 +343,7 @@ class LessonsScreen extends StatelessWidget {
   }
 
   Widget _chip(String text) {
+    const gold = Color(0xFFD4AF37);
     return Container(
       constraints: const BoxConstraints(maxWidth: 300),
       padding: const EdgeInsets.symmetric(
@@ -348,10 +351,10 @@ class LessonsScreen extends StatelessWidget {
         vertical: 8,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFFE3EEFF),
+        color: const Color(0xFF112A20), // Dark Green
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFCADCFF),
+          color: gold.withValues(alpha: 0.5), // Gold Border
         ),
       ),
       child: Text(
@@ -360,7 +363,7 @@ class LessonsScreen extends StatelessWidget {
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
         style: const TextStyle(
-          color: Color(0xFF1746A2),
+          color: Colors.white, // White Text
           fontSize: 13,
           fontWeight: FontWeight.w700,
         ),
@@ -369,20 +372,21 @@ class LessonsScreen extends StatelessWidget {
   }
 
   Widget _emptyLessonsCard() {
+    const gold = Color(0xFFD4AF37);
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFF112A20), // Dark Green Panel
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: const Color(0xFFD9DFFF),
+          color: gold.withValues(alpha: 0.3), // Gold Border
         ),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x106C4DBA),
+            color: gold.withValues(alpha: 0.05),
             blurRadius: 16,
-            offset: Offset(0, 6),
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -391,13 +395,13 @@ class LessonsScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFF0EBFF),
+              color: gold.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(18),
             ),
             child: const Icon(
               Icons.pending_actions_rounded,
               size: 38,
-              color: Color(0xFF7546D8),
+              color: gold, // Gold Icon
             ),
           ),
           const SizedBox(height: 16),
@@ -409,7 +413,7 @@ class LessonsScreen extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Color(0xFF20283A),
+              color: gold, // Gold Text
               fontSize: 17,
               fontWeight: FontWeight.w800,
               height: 1.4,
@@ -424,7 +428,7 @@ class LessonsScreen extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Color(0xFF536078),
+              color: Colors.white70, // White70 Text
               fontSize: 14,
               height: 1.6,
             ),
@@ -459,24 +463,13 @@ class LessonsScreen extends StatelessWidget {
         index < 8
         ? '${_grade6ModuleName(index)} • $levelName • $subjectName'
         : '$levelName • $subjectName';
-    const accents = [
-      Color(0xFF7546D8),
-      Color(0xFF1769D8),
-      Color(0xFF008A91),
-      Color(0xFFC24179),
-    ];
-    const backgrounds = [
-      Color(0xFFF0EBFF),
-      Color(0xFFE8F1FF),
-      Color(0xFFE2F7F5),
-      Color(0xFFFFEAF2),
-    ];
-    final accent = accents[index % accents.length];
-    final background = backgrounds[index % backgrounds.length];
+
+    const gold = Color(0xFFD4AF37);
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Material(
-        color: Colors.white,
+        color: const Color(0xFF112A20), // Dark Green Panel
         borderRadius: BorderRadius.circular(20),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -486,7 +479,7 @@ class LessonsScreen extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: const Color(0xFFDDE5F5),
+                color: gold.withValues(alpha: 0.3), // Gold Border
               ),
             ),
             child: Row(
@@ -496,13 +489,13 @@ class LessonsScreen extends StatelessWidget {
                   height: 46,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: background,
+                    color: gold.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Text(
                     '${index + 1}',
-                    style: TextStyle(
-                      color: accent,
+                    style: const TextStyle(
+                      color: gold, // Gold Number
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
                     ),
@@ -516,7 +509,7 @@ class LessonsScreen extends StatelessWidget {
                       Text(
                         lesson,
                         style: const TextStyle(
-                          color: Color(0xFF20283A),
+                          color: Colors.white, // White text for Title
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           height: 1.35,
@@ -526,7 +519,7 @@ class LessonsScreen extends StatelessWidget {
                       Text(
                         courseContext,
                         style: const TextStyle(
-                          color: Color(0xFF536078),
+                          color: Colors.white70, // White70 for context
                           fontSize: 12,
                           height: 1.4,
                         ),
@@ -535,9 +528,9 @@ class LessonsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 6),
-                Icon(
+                const Icon(
                   Icons.chevron_right_rounded,
-                  color: accent,
+                  color: gold, // Gold Arrow
                   size: 26,
                 ),
               ],
@@ -551,13 +544,16 @@ class LessonsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = lessons;
+    const background = Color(0xFF0A1C14);
+    const gold = Color(0xFFD4AF37);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F5FF),
+      backgroundColor: background,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
-        title: Text(t('පාඩම්', 'Lessons', 'பாடங்கள்')),
-        backgroundColor: const Color(0xFF07132F),
-        foregroundColor: Colors.white,
+        title: Text(t('පාඩම්', 'Lessons', 'பாடங்கள்'), style: const TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: background,
+        foregroundColor: gold, // Gold Title
         elevation: 0,
         centerTitle: true,
       ),
@@ -580,7 +576,7 @@ class LessonsScreen extends StatelessWidget {
             Text(
               subjectName,
               style: const TextStyle(
-                color: Color(0xFF20283A),
+                color: gold, // Gold Header
                 fontSize: 23,
                 fontWeight: FontWeight.w800,
                 height: 1.35,
@@ -594,7 +590,7 @@ class LessonsScreen extends StatelessWidget {
                 'கற்றலைத் தொடங்க ஒரு பாடத்தைத் தேர்ந்தெடுக்கவும்.',
               ),
               style: const TextStyle(
-                color: Color(0xFF536078),
+                color: Colors.white70, // White70 description
                 fontSize: 14,
                 height: 1.5,
               ),

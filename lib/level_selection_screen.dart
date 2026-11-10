@@ -70,49 +70,49 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
       title: 'Grade 5 Scholarship',
       subtitle: '5 වසර ශිෂ්‍යත්වය',
       icon: Icons.workspace_premium_rounded,
-      color: Color(0xFF9B42FF),
+      color: Color(0xFFD4AF37), // Gold
     ),
     _LevelItem(
       id: 'grade_6',
       title: 'Grade 6',
       subtitle: '6 ශ්‍රේණිය',
       icon: Icons.looks_6_rounded,
-      color: Color(0xFF168BFF),
+      color: Color(0xFFD4AF37), // Gold
     ),
     _LevelItem(
       id: 'grade_7',
       title: 'Grade 7',
       subtitle: '7 ශ්‍රේණිය',
       icon: Icons.school_rounded,
-      color: Color(0xFF00B8AA),
+      color: Color(0xFFD4AF37), // Gold
     ),
     _LevelItem(
       id: 'grade_8',
       title: 'Grade 8',
       subtitle: '8 ශ්‍රේණිය',
       icon: Icons.school_rounded,
-      color: Color(0xFFED4F98),
+      color: Color(0xFFD4AF37), // Gold
     ),
     _LevelItem(
       id: 'grade_9',
       title: 'Grade 9',
       subtitle: '9 ශ්‍රේණිය',
       icon: Icons.school_rounded,
-      color: Color(0xFFFFA52C),
+      color: Color(0xFFD4AF37), // Gold
     ),
     _LevelItem(
       id: 'ol',
       title: 'O/L',
       subtitle: 'සාමාන්‍ය පෙළ',
       icon: Icons.menu_book_rounded,
-      color: Color(0xFF647BFF),
+      color: Color(0xFFD4AF37), // Gold
     ),
     _LevelItem(
       id: 'al',
       title: 'A/L',
       subtitle: 'උසස් පෙළ',
       icon: Icons.workspace_premium_rounded,
-      color: Color(0xFF00B8E8),
+      color: Color(0xFFD4AF37), // Gold
     ),
   ];
 
@@ -178,6 +178,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
   }
 
   Widget _levelCard(_LevelItem item) {
+    const gold = Color(0xFFD4AF37);
     final selected = _selectedLevel == item.id;
     final locked = !_isAdmin && _lockedLevel != null && _lockedLevel != item.id;
 
@@ -185,8 +186,8 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
       selected: selected,
       child: Material(
         color: selected
-            ? item.color.withValues(alpha: 0.22)
-            : const Color(0xFF101F43),
+            ? gold.withValues(alpha: 0.22)
+            : const Color(0xFF112A20), // Dark Green Panel
         borderRadius: BorderRadius.circular(20),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -198,7 +199,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: selected ? item.color : const Color(0xFF263960),
+                color: selected ? gold : gold.withValues(alpha: 0.3),
                 width: selected ? 2 : 1,
               ),
             ),
@@ -212,12 +213,12 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                       width: 46,
                       height: 46,
                       decoration: BoxDecoration(
-                        color: item.color.withValues(alpha: 0.18),
+                        color: gold.withValues(alpha: 0.18),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Icon(
                         item.icon,
-                        color: item.color,
+                        color: gold,
                         size: 29,
                       ),
                     ),
@@ -227,7 +228,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                           : selected
                           ? Icons.check_circle_rounded
                           : Icons.radio_button_unchecked_rounded,
-                      color: selected ? item.color : const Color(0xFF7E91B4),
+                      color: selected ? gold : Colors.white54,
                       size: 23,
                     ),
                   ],
@@ -248,7 +249,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                   item.subtitle,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    color: Color(0xFFC3D0EA),
+                    color: Colors.white70,
                     fontSize: 14,
                     height: 1.4,
                   ),
@@ -263,15 +264,18 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const background = Color(0xFF0A1C14); // Deep Dark Green
+    const gold = Color(0xFFD4AF37);
+
     return Scaffold(
-      backgroundColor: const Color(0xFF07132F),
+      backgroundColor: background,
       appBar: AppBar(
         title: const Text(
           'Zingacc Learn AI',
-          style: TextStyle(fontWeight: FontWeight.w700),
+          style: TextStyle(fontWeight: FontWeight.w700, color: gold),
         ),
-        backgroundColor: const Color(0xFF07132F),
-        foregroundColor: Colors.white,
+        backgroundColor: background,
+        foregroundColor: gold,
         elevation: 0,
         centerTitle: true,
       ),
@@ -310,7 +314,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                             'Select Your Grade / Level',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: gold,
                               fontSize: 25,
                               fontWeight: FontWeight.w800,
                               height: 1.3,
@@ -321,7 +325,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                             'ඔබගේ ශ්‍රේණිය හෝ අධ්‍යයන මට්ටම තෝරන්න',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color(0xFFC3D0EA),
+                              color: Colors.white70,
                               fontSize: 15,
                               height: 1.5,
                             ),
@@ -333,15 +337,16 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                               child: Text(
                                 'මෙම ගිණුමට තෝරාගත් ශ්‍රේණිය අගුළු දමා ඇත.',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Color(0xFF70CFFF)),
+                                style: TextStyle(color: gold),
                               ),
                             ),
                           if (_isAdmin)
                             const Padding(
                               padding: EdgeInsets.only(bottom: 14),
                               child: Text('ADMIN MODE — සියලුම ශ්‍රේණි විවෘතයි',
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: Color(0xFF70CFFF),
+                                      color: gold,
                                       fontWeight: FontWeight.bold)),
                             ),
                           Wrap(
@@ -363,11 +368,11 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(18, 12, 18, 18),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF07132F),
+                  decoration: BoxDecoration(
+                    color: background,
                     border: Border(
                       top: BorderSide(
-                        color: Color(0xFF263960),
+                        color: gold.withValues(alpha: 0.3),
                       ),
                     ),
                   ),
@@ -379,10 +384,10 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                     icon: const Icon(Icons.arrow_forward_rounded),
                     label: const Text('Continue / ඉදිරියට'),
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF7546D8),
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: const Color(0xFF263451),
-                      disabledForegroundColor: const Color(0xFFABBCD8),
+                      backgroundColor: gold,
+                      foregroundColor: background,
+                      disabledBackgroundColor: const Color(0xFF112A20),
+                      disabledForegroundColor: Colors.white54,
                       minimumSize: const Size(double.infinity, 54),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 18,
@@ -390,7 +395,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                       ),
                       textStyle: const TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(17),

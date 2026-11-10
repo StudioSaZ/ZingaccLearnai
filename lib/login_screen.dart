@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('කරුණාකර Email සහ Password ඇතුළත් කරන්න.'),
+          content: Text('කරුණාකර Email සහ Password ඇතුළත් කරන්න.', style: TextStyle(color: Colors.white)),
           backgroundColor: Color(0xFFD84315),
         ),
       );
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (firestoreWarning != null) {
         messenger.showSnackBar(
           SnackBar(
-            content: Text(firestoreWarning),
+            content: Text(firestoreWarning, style: const TextStyle(color: Colors.white)),
             backgroundColor: const Color(0xFFD84315),
           ),
         );
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) {
         messenger.showSnackBar(
           SnackBar(
-            content: Text(message),
+            content: Text(message, style: const TextStyle(color: Colors.white)),
             backgroundColor: const Color(0xFFD84315),
           ),
         );
@@ -121,7 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
         messenger.showSnackBar(
           const SnackBar(
             content: Text(
-              'ගැටලුවක් මතු වුණා. Internet පරීක්ෂා කර නැවත උත්සාහ කරන්න.',
+                'ගැටලුවක් මතු වුණා. Internet පරීක්ෂා කර නැවත උත්සාහ කරන්න.',
+                style: TextStyle(color: Colors.white)
             ),
             backgroundColor: Color(0xFFD84315),
           ),
@@ -145,8 +146,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const background = Color(0xFF0A1C14); // Deep Dark Green
+    const panel = Color(0xFF112A20); // Dark Green Panel
+    const gold = Color(0xFFD4AF37); // Premium Gold
+
     return Scaffold(
-      backgroundColor: const Color(0xFF07132F),
+      backgroundColor: background,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -160,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Icon(
                     Icons.school_rounded,
                     size: 80,
-                    color: Color(0xFF70CFFF),
+                    color: gold, // Gold Icon
                   ),
                   const SizedBox(height: 24),
                   Text(
@@ -179,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Zingacc Learn AI වෙත පිවිසෙන්න',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFFABBCD8),
+                      color: Colors.white70, // Softer white
                       fontSize: 16,
                     ),
                   ),
@@ -194,26 +200,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color(0xFF101F43),
+                      fillColor: panel, // Dark Green TextField
                       hintText: 'Email ලිපිනය',
-                      hintStyle: const TextStyle(color: Color(0xFFABBCD8)),
+                      hintStyle: const TextStyle(color: Colors.white54),
                       prefixIcon: const Icon(
                         Icons.email_outlined,
-                        color: Color(0xFF70CFFF),
+                        color: gold, // Gold Icon
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide.none,
+                        borderSide: BorderSide(color: gold.withValues(alpha: 0.3)),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide.none,
+                        borderSide: BorderSide(color: gold.withValues(alpha: 0.5)), // Subtle gold border
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: const BorderSide(
-                          color: Color(0xFF70CFFF),
-                          width: 1.5,
+                          color: gold, // Strong gold border when focused
+                          width: 2.0,
                         ),
                       ),
                     ),
@@ -233,12 +239,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color(0xFF101F43),
+                      fillColor: panel, // Dark Green TextField
                       hintText: 'Password එක',
-                      hintStyle: const TextStyle(color: Color(0xFFABBCD8)),
+                      hintStyle: const TextStyle(color: Colors.white54),
                       prefixIcon: const Icon(
                         Icons.lock_outline,
-                        color: Color(0xFF70CFFF),
+                        color: gold, // Gold Icon
                       ),
                       suffixIcon: IconButton(
                         tooltip: _obscurePassword
@@ -248,7 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           _obscurePassword
                               ? Icons.visibility_off
                               : Icons.visibility,
-                          color: const Color(0xFFABBCD8),
+                          color: gold.withValues(alpha: 0.7), // Gold Visibility Icon
                         ),
                         onPressed: () {
                           setState(() {
@@ -258,17 +264,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide.none,
+                        borderSide: BorderSide(color: gold.withValues(alpha: 0.3)),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide.none,
+                        borderSide: BorderSide(color: gold.withValues(alpha: 0.5)), // Subtle gold border
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: const BorderSide(
-                          color: Color(0xFF70CFFF),
-                          width: 1.5,
+                          color: gold, // Strong gold border when focused
+                          width: 2.0,
                         ),
                       ),
                     ),
@@ -279,9 +285,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ElevatedButton(
                     onPressed: _isLoading ? null : _submit,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF7546D8),
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: const Color(0xFF514278),
+                      backgroundColor: gold, // Gold Button
+                      foregroundColor: background, // Dark Green Text (Premium contrast)
+                      disabledBackgroundColor: panel,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -293,7 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 22,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: Colors.white,
+                        color: Color(0xFFD4AF37), // Dark Green loader on Gold button
                       ),
                     )
                         : Text(
@@ -302,7 +308,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           : 'ගිණුම සාදන්න (Sign Up)',
                       style: const TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w900, // Extra bold for premium feel
                       ),
                     ),
                   ),
@@ -323,8 +329,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           : 'දැනටමත් ගිණුමක් තිබේද? පිවිසෙන්න',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        color: Color(0xFF70CFFF),
+                        color: gold, // Gold Text
                         fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),

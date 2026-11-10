@@ -8,15 +8,17 @@ class OpticalDiagramRenderer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const gold = Color(0xFFD4AF37);
+
     return Container(
       width: double.infinity,
       height: 240,
       margin: const EdgeInsets.symmetric(vertical: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF101F43),
+        color: const Color(0xFF112A20), // Dark Green Panel
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF365393)),
+        border: Border.all(color: gold.withOpacity(0.4)), // Gold Border
       ),
       child: CustomPaint(
         painter: _OpticsPainter(data),
@@ -31,11 +33,13 @@ class _OpticsPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final axisPaint = Paint()..color = const Color(0xFF5A75A6)..strokeWidth = 1.5;
-    final lensPaint = Paint()..color = const Color(0xFF70CFFF)..strokeWidth = 3.0..style = PaintingStyle.stroke;
-    final objectPaint = Paint()..color = Colors.orangeAccent..strokeWidth = 3.0;
-    final imagePaint = Paint()..color = Colors.greenAccent..strokeWidth = 3.0;
-    final rayPaint = Paint()..color = Colors.yellowAccent.withOpacity(0.8)..strokeWidth = 1.5;
+    const gold = Color(0xFFD4AF37);
+
+    final axisPaint = Paint()..color = gold.withOpacity(0.5)..strokeWidth = 1.5; // Gold Axis
+    final lensPaint = Paint()..color = gold..strokeWidth = 3.0..style = PaintingStyle.stroke; // Gold Lens
+    final objectPaint = Paint()..color = Colors.white..strokeWidth = 3.0; // White Object
+    final imagePaint = Paint()..color = const Color(0xFF39D5BD)..strokeWidth = 3.0; // Teal/Greenish Image
+    final rayPaint = Paint()..color = gold.withOpacity(0.8)..strokeWidth = 1.5; // Gold Rays
 
     final cx = size.width / 2;
     final cy = size.height / 2;
@@ -44,6 +48,7 @@ class _OpticsPainter extends CustomPainter {
     canvas.drawLine(Offset(0, cy), Offset(size.width, cy), axisPaint);
 
     // 2. කාචය අඳිමු (Lens)
+    // කැඩිලා තිබුණු අඩු කිරීමේ ලකුණු මෙතන හැදුවා (-)
     canvas.drawLine(Offset(cx, 20), Offset(cx, size.height - 20), lensPaint);
 
     // උත්තල/අවතල ඊතල සලකුණු (Convex/Concave arrows)
@@ -69,24 +74,29 @@ class _OpticsPainter extends CustomPainter {
 
     double objX = cx - (u * scale);
     double imgX = cx + (v * scale);
+
+    // කැඩිලා තිබුණු ගුණ කිරීමේ ලකුණ මෙතන හැදුවා (*)
     double fDist = data.focalLength * scale;
 
     // F සහ 2F අක්ෂය මත ලකුණු කිරීම
     _markPoint(canvas, cx + fDist, cy, 'F', axisPaint);
     _markPoint(canvas, cx - fDist, cy, 'F', axisPaint);
+
+    // කැඩිලා තිබුණු ගුණ කිරීමේ ලකුණු මෙතන හැදුවා (*)
     _markPoint(canvas, cx + 2 * fDist, cy, '2F', axisPaint);
     _markPoint(canvas, cx - 2 * fDist, cy, '2F', axisPaint);
+
     _markPoint(canvas, cx, cy, 'O', axisPaint); // ප්‍රකාශ කේන්ද්‍රය
 
-    // 3. වස්තුව අඳිමු (Object - තැඹිලි පාටින්)
+    // 3. වස්තුව අඳිමු (Object - සුදු පාටින්)
     _drawArrow(canvas, Offset(objX, cy), Offset(objX, cy - objHeight), objectPaint);
 
-    // 4. ප්‍රතිබිම්බය අඳිමු (Image - කොළ පාටින්)
+    // 4. ප්‍රතිබිම්බය අඳිමු (Image - ලා කොළ පාටින්)
     if (u != f) {
       _drawArrow(canvas, Offset(imgX, cy), Offset(imgX, cy - imgHeight), imagePaint);
     }
 
-    // 5. ආලෝක කිරණ අඳිමු (Rays - කහ පාටින්)
+    // 5. ආලෝක කිරණ අඳිමු (Rays - රන්වන් පාටින්)
     // Ray 1: ප්‍රධාන අක්ෂයට සමාන්තර කිරණය -> නාභිය (F) හරහා යයි
     canvas.drawLine(Offset(objX, cy - objHeight), Offset(cx, cy - objHeight), rayPaint);
     canvas.drawLine(Offset(cx, cy - objHeight), Offset(imgX, cy - imgHeight), rayPaint);
@@ -98,7 +108,7 @@ class _OpticsPainter extends CustomPainter {
   void _markPoint(Canvas canvas, double x, double y, String label, Paint paint) {
     canvas.drawLine(Offset(x, y - 4), Offset(x, y + 4), paint);
     final textPainter = TextPainter(
-      text: TextSpan(text: label, style: const TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.bold)),
+      text: TextSpan(text: label, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
       textDirection: TextDirection.ltr,
     );
     textPainter.layout();
@@ -108,6 +118,8 @@ class _OpticsPainter extends CustomPainter {
   void _drawArrow(Canvas canvas, Offset base, Offset tip, Paint paint) {
     canvas.drawLine(base, tip, paint);
     final double d = 6.0;
+
+    // කැඩිලා තිබුණු අඩු කිරීමේ ලකුණු මෙතන හැදුවා (-)
     if (tip.dy < base.dy) { // ඊතලය උඩට
       canvas.drawLine(tip, Offset(tip.dx - d, tip.dy + d), paint);
       canvas.drawLine(tip, Offset(tip.dx + d, tip.dy + d), paint);

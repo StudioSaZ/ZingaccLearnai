@@ -18,18 +18,19 @@ class ZingaccBrandBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(
           compact ? 16 : 22,
         ),
+        // 🌟 Premium Gold Gradient Border
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF7B24FF),
-            Color(0xFF1769FF),
-            Color(0xFF16D9FF),
+            Color(0xFFF9D976), // Light Gold
+            Color(0xFFD4AF37), // Classic Gold
+            Color(0xFFB58E29), // Dark Gold
           ],
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF7B24FF).withValues(
+            color: const Color(0xFFD4AF37).withValues(
               alpha: 0.28,
             ),
             blurRadius: compact ? 12 : 20,
@@ -37,7 +38,7 @@ class ZingaccBrandBanner extends StatelessWidget {
             offset: const Offset(0, 5),
           ),
           BoxShadow(
-            color: const Color(0xFF16D9FF).withValues(
+            color: const Color(0xFFF9D976).withValues(
               alpha: 0.18,
             ),
             blurRadius: compact ? 8 : 16,
@@ -45,10 +46,10 @@ class ZingaccBrandBanner extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(2),
+      padding: const EdgeInsets.all(2), // 2px Border width
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF07132F),
+          color: const Color(0xFF112A20), // 🌟 Dark Green Background
           borderRadius: BorderRadius.circular(
             compact ? 14 : 20,
           ),
@@ -81,22 +82,23 @@ class ZingaccBrandBanner extends StatelessWidget {
               Object error,
               StackTrace? stackTrace,
               ) {
+            // 🌟 Error Fallback Image with Dark Green Theme
             return Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF35156F),
-                    Color(0xFF073B83),
-                    Color(0xFF006B86),
+                    Color(0xFF1A3C2B), // Lighter Dark Green
+                    Color(0xFF112A20), // Dark Green
+                    Color(0xFF0A1C14), // Deep Dark Green
                   ],
                 ),
               ),
               child: const Center(
                 child: Icon(
                   Icons.school_rounded,
-                  color: Colors.white,
+                  color: Color(0xFFD4AF37), // 🌟 Gold Icon
                   size: 44,
                 ),
               ),
@@ -112,8 +114,8 @@ class ZingaccBrandBanner extends StatelessWidget {
                 colors: [
                   Colors.white.withValues(alpha: 0.07),
                   Colors.transparent,
-                  const Color(0xFF16D9FF).withValues(
-                    alpha: 0.05,
+                  const Color(0xFFD4AF37).withValues( // 🌟 Subtle Gold overlay
+                    alpha: 0.08,
                   ),
                 ],
               ),

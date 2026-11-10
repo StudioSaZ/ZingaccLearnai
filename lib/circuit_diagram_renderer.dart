@@ -8,15 +8,17 @@ class CircuitDiagramRenderer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const gold = Color(0xFFD4AF37);
+
     return Container(
       width: double.infinity,
       height: 220,
       margin: const EdgeInsets.symmetric(vertical: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFF101F43),
+        color: const Color(0xFF112A20), // Dark Green Panel
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF365393)),
+        border: Border.all(color: gold.withOpacity(0.4)), // Gold Border
       ),
       child: CustomPaint(
         painter: _CircuitPainter(data),
@@ -32,13 +34,15 @@ class _CircuitPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    const gold = Color(0xFFD4AF37);
+
     final wirePaint = Paint()
-      ..color = const Color(0xFF70CFFF)
+      ..color = gold.withOpacity(0.8) // Gold Wires
       ..strokeWidth = 2.5
       ..style = PaintingStyle.stroke;
 
     final componentPaint = Paint()
-      ..color = Colors.white
+      ..color = Colors.white // White Components
       ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
 
@@ -47,7 +51,7 @@ class _CircuitPainter extends CustomPainter {
 
     if (data.isParallel && data.resistors > 1) {
       // සමාන්තර පරිපථ සඳහා Short Circuit නොවන ලෙස වයර් රාමුව අඳිමු
-      canvas.drawLine(Offset(0, 0), Offset(0, height), wirePaint); // වම් රේඛාව
+      canvas.drawLine(const Offset(0, 0), Offset(0, height), wirePaint); // වම් රේඛාව
       canvas.drawLine(Offset(width, 0), Offset(width, height), wirePaint); // දකුණු රේඛාව
       canvas.drawLine(Offset(0, height), Offset(width, height), wirePaint); // යට රේඛාව
     } else {
@@ -68,14 +72,14 @@ class _CircuitPainter extends CustomPainter {
   }
 
   void _drawBattery(Canvas canvas, Paint paint, double cx, double cy) {
-    canvas.drawRect(Rect.fromLTRB(cx - 20, cy - 3, cx + 20, cy + 3), Paint()..color = const Color(0xFF101F43));
+    canvas.drawRect(Rect.fromLTRB(cx - 20, cy - 3, cx + 20, cy + 3), Paint()..color = const Color(0xFF112A20));
     canvas.drawLine(Offset(cx - 10, cy - 15), Offset(cx - 10, cy + 15), paint);
     canvas.drawLine(Offset(cx + 10, cy - 8), Offset(cx + 10, cy + 8), paint..strokeWidth = 5.0);
     paint.strokeWidth = 3.0;
   }
 
   void _drawSwitch(Canvas canvas, Paint paint, double cx, double cy) {
-    canvas.drawRect(Rect.fromLTRB(cx - 3, cy - 20, cx + 3, cy + 20), Paint()..color = const Color(0xFF101F43));
+    canvas.drawRect(Rect.fromLTRB(cx - 3, cy - 20, cx + 3, cy + 20), Paint()..color = const Color(0xFF112A20));
     canvas.drawCircle(Offset(cx, cy - 12), 3, paint..style = PaintingStyle.fill);
     canvas.drawCircle(Offset(cx, cy + 12), 3, paint);
     paint.style = PaintingStyle.stroke;
@@ -103,7 +107,7 @@ class _CircuitPainter extends CustomPainter {
   }
 
   void _drawZigZag(Canvas canvas, Paint paint, double cx, double cy) {
-    canvas.drawRect(Rect.fromLTRB(cx - 20, cy - 3, cx + 20, cy + 3), Paint()..color = const Color(0xFF101F43));
+    canvas.drawRect(Rect.fromLTRB(cx - 20, cy - 3, cx + 20, cy + 3), Paint()..color = const Color(0xFF112A20));
     final path = Path();
     path.moveTo(cx - 20, cy);
     path.lineTo(cx - 15, cy - 10);

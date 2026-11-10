@@ -33,9 +33,10 @@ class QuizQuestion {
 }
 
 class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
-  static const Color _bg = Color(0xFF06112D);
-  static const Color _panel = Color(0xFF102653);
-  static const Color _cyan = Color(0xFF16D9FF);
+  static const Color _bg = Color(0xFF0A1C14); // Deep Dark Green
+  static const Color _panel = Color(0xFF112A20); // Dark Green Panel
+  static const Color _gold = Color(0xFFD4AF37); // Premium Gold
+
   static const List<String> _topics = <String>[
     'all',
     'patterns',
@@ -711,6 +712,8 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
       _checked = false;
       _started = true;
       _finished = false;
+
+      // කැඩිලා තිබුණු ගුණ කිරීමේ ලකුණු (*) මෙතන නිවැරදි කරලා තියෙනවා
       _durationSeconds = mode == 'mock60'
           ? 60 * 60
           : mode == 'mock75'
@@ -786,7 +789,10 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
     width: double.infinity,
     padding: const EdgeInsets.all(18),
     decoration: BoxDecoration(
-        color: _panel, borderRadius: BorderRadius.circular(18)),
+        color: _panel,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: _gold.withOpacity(0.3)) // Subtle Gold Border
+    ),
     child: child,
   );
 
@@ -804,14 +810,14 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
                 'විෂය කරුණු, තර්කනය සහ ගණනය පුහුණු වන්න. මෙය නිල ශිෂ්‍යත්ව පත්‍රයක් නොවේ.',
                 'Practise knowledge, reasoning and calculations. These are not official examination papers.',
                 'அறிவு, தர்க்கம், கணக்கீடு ஆகியவற்றைப் பயிற்சி செய்யுங்கள். இவை அதிகாரப்பூர்வ வினாத்தாள்கள் அல்ல.'),
-            style: const TextStyle(color: Color(0xFFD0E1FF), height: 1.5)),
+            style: const TextStyle(color: Colors.white70, height: 1.5)),
         const SizedBox(height: 10),
         Text(
             _t(
                 'ප්‍රශ්න ගබඩාව: ${_bank.length} | දුර්වල ප්‍රශ්න: ${_weakQuestions.length}',
                 'Question bank: ${_bank.length} | Review questions: ${_weakQuestions.length}',
                 'வினாக்கள்: ${_bank.length} | மீள்பயிற்சி: ${_weakQuestions.length}'),
-            style: const TextStyle(color: _cyan)),
+            style: const TextStyle(color: _gold, fontWeight: FontWeight.bold)),
       ])),
       const SizedBox(height: 18),
       Text(
@@ -825,8 +831,13 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
         decoration: InputDecoration(
             filled: true,
             fillColor: _panel,
-            border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(14))),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: _gold.withOpacity(0.4))),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: const BorderSide(color: _gold, width: 1.5)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14))),
         items: _topics
             .map((topic) => DropdownMenuItem<String>(
             value: topic, child: Text(_topicName(topic))))
@@ -836,14 +847,26 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
       const SizedBox(height: 16),
       FilledButton.icon(
           onPressed: () => _begin('practice'),
+          style: FilledButton.styleFrom(
+              backgroundColor: _gold,
+              foregroundColor: _bg,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))
+          ),
           icon: const Icon(Icons.play_arrow_rounded),
           label: Text(_t(
               'පුහුණුව අරඹන්න (ප්‍රශ්න 10ක් දක්වා)',
               'Start practice (up to 10 questions)',
-              'பயிற்சி தொடங்கு (10 வினாக்கள் வரை)'))),
+              'பயிற்சி தொடங்கு (10 வினாக்கள் வரை)'), style: const TextStyle(fontWeight: FontWeight.bold))),
       const SizedBox(height: 10),
       OutlinedButton.icon(
           onPressed: _weakQuestions.isEmpty ? null : () => _begin('weak'),
+          style: OutlinedButton.styleFrom(
+              foregroundColor: _gold,
+              side: BorderSide(color: _weakQuestions.isEmpty ? Colors.white24 : _gold.withOpacity(0.6)),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))
+          ),
           icon: const Icon(Icons.replay_rounded),
           label: Text(_t(
               'වැරදුණු ප්‍රශ්න නැවත පුහුණු වන්න',
@@ -861,16 +884,28 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
               'මෙම ආදර්ශ පරීක්ෂණ දෙකම අපේ ප්‍රශ්න ගබඩාවේ ප්‍රශ්න 48ම භාවිත කරයි. නිල පත්‍ර I/II ආකෘතියක් ලෙස නොසලකන්න.',
               'Both mock tests use all 48 questions in this bank. They do not reproduce official Paper I or II formats.',
               'இரண்டு மாதிரித் தேர்வுகளும் இந்தத் தொகுப்பின் 48 வினாக்களையும் பயன்படுத்துகின்றன. இவை அதிகாரப்பூர்வ தாள் I/II வடிவங்கள் அல்ல.'),
-          style: const TextStyle(color: Color(0xFFC9D9F5))),
+          style: const TextStyle(color: Colors.white70)),
       const SizedBox(height: 10),
       OutlinedButton.icon(
           onPressed: () => _begin('mock60'),
+          style: OutlinedButton.styleFrom(
+              foregroundColor: _gold,
+              side: BorderSide(color: _gold.withOpacity(0.4)),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))
+          ),
           icon: const Icon(Icons.timer_outlined),
           label: Text(_t('විනාඩි 60 ආදර්ශ පරීක්ෂණය', '60-minute mock test',
               '60 நிமிட மாதிரித் தேர்வு'))),
       const SizedBox(height: 8),
       OutlinedButton.icon(
           onPressed: () => _begin('mock75'),
+          style: OutlinedButton.styleFrom(
+              foregroundColor: _gold,
+              side: BorderSide(color: _gold.withOpacity(0.4)),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))
+          ),
           icon: const Icon(Icons.timer_outlined),
           label: Text(_t('විනාඩි 75 ආදර්ශ පරීක්ෂණය', '75-minute mock test',
               '75 நிமிட மாதிரித் தேர்வு'))),
@@ -880,7 +915,7 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
               'ප්‍රගතිය මෙම තිරය විවෘතව තිබෙන තෙක් පමණක් තබාගනී. යෙදුම නැවත ආරම්භ කළොත් දුර්වල ප්‍රශ්න ලැයිස්තුව නැති වේ.',
               'Progress is stored in memory only and resets when the app restarts.',
               'முன்னேற்றம் தற்காலிகமாக மட்டுமே சேமிக்கப்படும்; செயலியை மீண்டும் தொடங்கினால் அழியும்.'),
-          style: const TextStyle(color: Color(0xFF98B2DD), fontSize: 12)),
+          style: const TextStyle(color: Colors.white54, fontSize: 12)),
     ]);
   }
 
@@ -898,7 +933,7 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
             child: Text(
                 '${_position + 1} / ${_order.length} · ${_topicName(q.topic)}',
                 style: const TextStyle(
-                    color: _cyan, fontWeight: FontWeight.bold))),
+                    color: _gold, fontWeight: FontWeight.bold))),
         if (_durationSeconds > 0)
           Text('$mm:$ss',
               style: const TextStyle(
@@ -907,10 +942,14 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
                   fontWeight: FontWeight.bold)),
       ]),
       const SizedBox(height: 10),
-      LinearProgressIndicator(
-          value: (_position + 1) / _order.length,
-          backgroundColor: _panel,
-          color: _cyan),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: LinearProgressIndicator(
+            value: (_position + 1) / _order.length,
+            minHeight: 8,
+            backgroundColor: _panel,
+            color: _gold),
+      ),
       const SizedBox(height: 16),
       _panelBox(Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(_questionText(q),
@@ -922,16 +961,19 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
         const SizedBox(height: 16),
         ...List.generate(
             4,
-                (i) => RadioListTile<int>(
-              value: i,
-              groupValue: selected,
-              activeColor: _cyan,
-              title: Text(_options(q)[i],
-                  style:
-                  const TextStyle(color: Colors.white, fontSize: 16)),
-              onChanged: practice && _checked
-                  ? null
-                  : (v) => setState(() => _answers[id] = v!),
+                (i) => Theme(
+              data: ThemeData(unselectedWidgetColor: Colors.white54),
+              child: RadioListTile<int>(
+                value: i,
+                groupValue: selected,
+                activeColor: _gold,
+                title: Text(_options(q)[i],
+                    style:
+                    const TextStyle(color: Colors.white, fontSize: 16)),
+                onChanged: practice && _checked
+                    ? null
+                    : (v) => setState(() => _answers[id] = v!),
+              ),
             )),
       ])),
       if (practice && _checked) ...[
@@ -940,8 +982,10 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
                 color:
-                correct ? const Color(0xFF164A3B) : const Color(0xFF49321E),
-                borderRadius: BorderRadius.circular(14)),
+                correct ? const Color(0xFF0F472B) : const Color(0xFF6B1F27),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: correct ? const Color(0xFF24E69A) : const Color(0xFFFF7182))
+            ),
             child:
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
@@ -967,16 +1011,23 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
       const SizedBox(height: 18),
       FilledButton(
           onPressed: practice && selected == null ? null : _next,
+          style: FilledButton.styleFrom(
+              backgroundColor: _gold,
+              foregroundColor: _bg,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))
+          ),
           child: Text(practice && !_checked
               ? _t('පිළිතුර පරීක්ෂා කරන්න', 'Check answer',
               'விடையைச் சரிபார்க்கவும்')
               : _position + 1 == _order.length
               ? _t('ප්‍රතිඵල බලන්න', 'See results',
               'முடிவுகளைப் பார்க்கவும்')
-              : _t('ඊළඟ ප්‍රශ්නය', 'Next question', 'அடுத்த வினா'))),
+              : _t('ඊළඟ ප්‍රශ්නය', 'Next question', 'அடுத்த வினா'), style: const TextStyle(fontWeight: FontWeight.bold))),
       const SizedBox(height: 8),
       TextButton(
           onPressed: _returnHome,
+          style: TextButton.styleFrom(foregroundColor: Colors.white70),
           child: Text(_t('පුහුණුවෙන් ඉවත් වන්න', 'Exit practice',
               'பயிற்சியிலிருந்து வெளியேறு'))),
     ]);
@@ -986,7 +1037,10 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
     final score =
         _order.where((id) => _answers[id] == _bank[id].correct).length;
     final total = _order.length;
+
+    // කැඩිලා තිබුණු ගුණ කිරීමේ ලකුණ (*) මෙතන නිවැරදි කරලා තියෙනවා
     final percent = total == 0 ? 0 : (100 * score / total).round();
+
     final weakTopics = <String, int>{};
     for (final id in _order) {
       if (_answers[id] != _bank[id].correct) {
@@ -1000,7 +1054,7 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
         const SizedBox(height: 8),
         Text('$score / $total  ($percent%)',
             style: const TextStyle(
-                color: _cyan, fontSize: 34, fontWeight: FontWeight.bold)),
+                color: _gold, fontSize: 34, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
         Text(
             weakTopics.isEmpty
@@ -1041,22 +1095,28 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
                   if (selected != null)
                     Text(
                         '${_t('ඔබේ පිළිතුර', 'Your answer', 'உங்கள் விடை')}: ${_options(q)[selected]}',
-                        style: const TextStyle(color: Color(0xFFC9D9F5))),
+                        style: const TextStyle(color: Colors.white70)),
                   Text(
                       '${_t('නිවැරදි පිළිතුර', 'Correct answer', 'சரியான விடை')}: ${_options(q)[q.correct]}',
                       style: const TextStyle(color: Colors.white)),
                   const SizedBox(height: 5),
                   Text(_explanation(q),
                       style:
-                      const TextStyle(color: Color(0xFFC9D9F5), height: 1.5)),
+                      const TextStyle(color: Colors.white70, height: 1.5)),
                 ])));
       }),
       const SizedBox(height: 10),
       FilledButton.icon(
           onPressed: _returnHome,
+          style: FilledButton.styleFrom(
+              backgroundColor: _gold,
+              foregroundColor: _bg,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))
+          ),
           icon: const Icon(Icons.home_outlined),
           label: Text(
-              _t('ප්‍රධාන මෙනුවට', 'Back to menu', 'முதன்மைப் பட்டியலுக்கு'))),
+              _t('ප්‍රධාන මෙනුවට', 'Back to menu', 'முதன்மைப் பட்டியலுக்கு'), style: const TextStyle(fontWeight: FontWeight.bold))),
     ]);
   }
 
@@ -1066,9 +1126,10 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
       backgroundColor: _bg,
       appBar: AppBar(
         backgroundColor: _bg,
-        foregroundColor: Colors.white,
+        foregroundColor: _gold, // Gold Title
+        centerTitle: true,
         title: Text(_t('5 ශ්‍රේණිය ශිෂ්‍යත්ව පුහුණුව',
-            'Grade 5 Scholarship Practice', 'தரம் 5 புலமைப்பரிசில் பயிற்சி')),
+            'Grade 5 Scholarship Practice', 'தரம் 5 புலமைப்பரிசில் பயிற்சி'), style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: SafeArea(
           child: Center(
@@ -1079,20 +1140,20 @@ class _ScholarshipPracticeScreenState extends State<ScholarshipPracticeScreen> {
                       padding: const EdgeInsets.all(17),
                       decoration: BoxDecoration(
                           gradient: const LinearGradient(colors: [
-                            Color(0xFF7B24FF),
-                            Color(0xFF1769FF),
-                            Color(0xFF16D9FF)
+                            Color(0xFFF9D976), // Light Gold
+                            Color(0xFFD4AF37), // Classic Gold
+                            Color(0xFFB58E29), // Dark Gold
                           ]),
                           borderRadius: BorderRadius.circular(18)),
                       child: const Row(children: [
-                        Icon(Icons.school_rounded, color: Colors.white, size: 32),
+                        Icon(Icons.school_rounded, color: Color(0xFF0A1C14), size: 32),
                         SizedBox(width: 12),
                         Expanded(
                             child: Text('Zingacc Learn AI',
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Color(0xFF0A1C14), // Dark Text on Gold Banner
                                     fontSize: 22,
-                                    fontWeight: FontWeight.bold))),
+                                    fontWeight: FontWeight.w900))),
                       ])),
                   const SizedBox(height: 18),
                   !_started

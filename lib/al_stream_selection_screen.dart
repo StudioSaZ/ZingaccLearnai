@@ -20,6 +20,8 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
   bool showStreams = false;
   String? selectedStream;
 
+  static const Color _gold = Color(0xFFD4AF37); // Premium Gold
+
   String _label(String sinhala, String english, String tamil) {
     final medium = widget.selectedMedium.toLowerCase();
     if (medium == 'sinhala' || medium == 'සිංහල') return sinhala;
@@ -46,42 +48,36 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
       title: _label('භෞතික විද්‍යා (Maths)', 'Physical Science', 'பௌதிக விஞ்ஞானம் (Maths)'),
       subtitle: _label('ගණිතය / භෞතික විද්‍යා ධාරාව', 'Mathematics / Physical Science stream', 'கணிதம் / பௌதிக விஞ்ஞான துறை'),
       icon: Icons.calculate_rounded,
-      color: const Color(0xFFB77AFF),
     ),
     _ALStreamItem(
       id: 'biological_science',
       title: _label('ජීව විද්‍යා (Bio)', 'Biological Science', 'உயிர் விஞ்ஞானம் (Bio)'),
       subtitle: _label('ජීව විද්‍යා ධාරාව', 'Biology / Biological Science stream', 'உயிரியல் / உயிர் விஞ்ஞான துறை'),
       icon: Icons.biotech_rounded,
-      color: const Color(0xFF39D5BD),
     ),
     _ALStreamItem(
       id: 'commerce',
       title: _label('වාණිජ (Commerce)', 'Commerce', 'வர்த்தகம்'),
       subtitle: _label('වාණිජ ධාරාව', 'Commerce stream', 'வர்த்தக துறை'),
       icon: Icons.business_center_rounded,
-      color: const Color(0xFFFFC267),
     ),
     _ALStreamItem(
       id: 'arts',
       title: _label('කලා (Arts)', 'Arts', 'கலை'),
       subtitle: _label('කලා ධාරාව', 'Arts stream', 'கலை துறை'),
       icon: Icons.palette_rounded,
-      color: const Color(0xFFFF80B5),
     ),
     _ALStreamItem(
       id: 'engineering_technology',
       title: _label('ඉංජිනේරු තාක්ෂණවේදය', 'Engineering Technology', 'பொறியியல் தொழில்நுட்பம்'),
       subtitle: _label('ඉංජිනේරු තාක්ෂණවේද ධාරාව (ET)', 'Engineering Technology stream', 'பொறியியல் தொழில்நுட்ப துறை (ET)'),
       icon: Icons.engineering_rounded,
-      color: const Color(0xFF55B9FF),
     ),
     _ALStreamItem(
       id: 'biosystems_technology',
       title: _label('ජෛව පද්ධති තාක්ෂණවේදය', 'Biosystems Technology', 'உயிர் முறைமைகள் தொழில்நுட்பம்'),
       subtitle: _label('ජෛව පද්ධති තාක්ෂණවේද ධාරාව (BST)', 'Biosystems Technology stream', 'உயிர் முறைமைகள் தொழில்நுட்ப துறை (BST)'),
       icon: Icons.eco_rounded,
-      color: const Color(0xFFA9DE70),
     ),
   ];
 
@@ -123,17 +119,19 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const background = Color(0xFF0A1C14); // Deep Dark Green
+
     return Scaffold(
-      backgroundColor: const Color(0xFF07132F),
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF07132F),
-        foregroundColor: Colors.white,
+        backgroundColor: background,
+        foregroundColor: _gold,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         title: const Text(
           'Zingacc Learn AI',
-          style: TextStyle(fontWeight: FontWeight.w800),
+          style: TextStyle(fontWeight: FontWeight.w800, color: _gold),
         ),
       ),
       body: SafeArea(
@@ -165,12 +163,12 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
         _chip(
           Icons.school_rounded,
           'A/L',
-          const Color(0xFFB77AFF),
+          _gold,
         ),
         _chip(
           Icons.language_rounded,
           mediumName,
-          const Color(0xFF55B9FF),
+          _gold,
         ),
       ],
     );
@@ -183,10 +181,10 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
         vertical: 9,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: const Color(0xFF112A20),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: color.withValues(alpha: 0.35),
+          color: color.withOpacity(0.5),
         ),
       ),
       child: Row(
@@ -198,7 +196,7 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
             child: Text(
               text,
               style: const TextStyle(
-                color: Color(0xFFE0E9FA),
+                color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
@@ -210,6 +208,8 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
   }
 
   Widget _buildIntro() {
+    const panel = Color(0xFF112A20);
+
     return ListView(
       key: const ValueKey('al-intro'),
       padding: const EdgeInsets.fromLTRB(18, 14, 18, 24),
@@ -221,7 +221,7 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
         Text(
           _label('ඔබගේ විෂය ධාරාව තෝරන්න', 'Select Your Stream', 'உங்கள் துறையைத் தேர்ந்தெடுக்கவும்'),
           style: const TextStyle(
-            color: Colors.white,
+            color: _gold,
             fontSize: 26,
             fontWeight: FontWeight.w800,
           ),
@@ -234,7 +234,7 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
             'A/L க்கு, முதலில் உங்கள் துறையைத் தேர்ந்தெடுக்கவும்',
           ),
           style: const TextStyle(
-            color: Color(0xFFC3D0EA),
+            color: Colors.white70,
             fontSize: 16,
             height: 1.5,
           ),
@@ -243,17 +243,10 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
         Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF292052),
-                Color(0xFF122E53),
-              ],
-            ),
+            color: panel,
             borderRadius: BorderRadius.circular(22),
             border: Border.all(
-              color: const Color(0xFF48518C),
+              color: _gold.withOpacity(0.5),
             ),
           ),
           child: Column(
@@ -261,13 +254,13 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
               Container(
                 padding: const EdgeInsets.all(17),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFB77AFF).withValues(alpha: 0.15),
+                  color: _gold.withOpacity(0.18),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Icon(
                   Icons.account_tree_rounded,
                   size: 44,
-                  color: Color(0xFFB77AFF),
+                  color: _gold,
                 ),
               ),
               const SizedBox(height: 18),
@@ -289,7 +282,7 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
                 ),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  color: Color(0xFFD4E1F7),
+                  color: Colors.white70,
                   fontSize: 15,
                   height: 1.6,
                 ),
@@ -306,7 +299,7 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
       key: const ValueKey('al-streams'),
       builder: (context, constraints) {
         final columns = constraints.maxWidth >= 700 ? 2 : 1;
-        // Fixed the math syntax error below
+        // කැඩිලා තිබුණු ගුණ කිරීමේ ලකුණ (*) මෙතන නිවැරදි කරලා තියෙනවා
         final cardWidth = (constraints.maxWidth - 36 - 12 * (columns - 1)) / columns;
 
         return ListView(
@@ -319,7 +312,7 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
             Text(
               _label('ඔබගේ විෂය ධාරාව තෝරන්න', 'Choose Your A/L Stream', 'உங்கள் A/L துறையைத் தேர்ந்தெடுக்கவும்'),
               style: const TextStyle(
-                color: Colors.white,
+                color: _gold,
                 fontSize: 26,
                 fontWeight: FontWeight.w800,
               ),
@@ -328,7 +321,7 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
             Text(
               _label('ඔබ ඉගෙන ගන්නා විෂය ධාරාව තෝරන්න.', 'Select the stream you are studying.', 'நீங்கள் படிக்கும் துறையைத் தேர்ந்தெடுக்கவும்.'),
               style: const TextStyle(
-                color: Color(0xFFC3D0EA),
+                color: Colors.white70,
                 fontSize: 16,
                 height: 1.5,
               ),
@@ -352,13 +345,16 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
   }
 
   Widget _bottomButton() {
+    const background = Color(0xFF0A1C14);
+    const panel = Color(0xFF112A20);
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(18, 12, 18, 18),
-      decoration: const BoxDecoration(
-        color: Color(0xFF07132F),
+      decoration: BoxDecoration(
+        color: background,
         border: Border(
-          top: BorderSide(color: Color(0xFF263960)),
+          top: BorderSide(color: _gold.withOpacity(0.3)),
         ),
       ),
       child: FilledButton(
@@ -366,10 +362,10 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
             ? (selectedStream == null ? null : confirmStream)
             : openStreamList,
         style: FilledButton.styleFrom(
-          backgroundColor: const Color(0xFF7546D8),
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: const Color(0xFF263451),
-          disabledForegroundColor: const Color(0xFFABBCD8),
+          backgroundColor: _gold,
+          foregroundColor: background,
+          disabledBackgroundColor: panel,
+          disabledForegroundColor: Colors.white54,
           minimumSize: const Size.fromHeight(54),
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -404,17 +400,16 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
 
   Widget _streamCard(_ALStreamItem item) {
     final selected = selectedStream == item.id;
-    final accent = item.color;
 
     return Semantics(
       selected: selected,
       child: Material(
         color:
-        selected ? accent.withValues(alpha: 0.18) : const Color(0xFF101F43),
+        selected ? _gold.withOpacity(0.22) : const Color(0xFF112A20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(19),
           side: BorderSide(
-            color: selected ? accent : const Color(0xFF263960),
+            color: selected ? _gold : _gold.withOpacity(0.3),
             width: selected ? 2 : 1,
           ),
         ),
@@ -429,12 +424,12 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: accent.withValues(alpha: 0.18),
+                    color: _gold.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Icon(
                     item.icon,
-                    color: accent,
+                    color: _gold,
                     size: 26,
                   ),
                 ),
@@ -456,7 +451,7 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
                       Text(
                         item.subtitle,
                         style: const TextStyle(
-                          color: Color(0xFFC3D0EA),
+                          color: Colors.white70,
                           fontSize: 14,
                           height: 1.5,
                         ),
@@ -469,7 +464,7 @@ class _ALStreamSelectionScreenState extends State<ALStreamSelectionScreen> {
                   selected
                       ? Icons.check_circle_rounded
                       : Icons.radio_button_unchecked_rounded,
-                  color: selected ? accent : const Color(0xFF8093B7),
+                  color: selected ? _gold : Colors.white54,
                   size: 25,
                 ),
               ],
@@ -487,12 +482,10 @@ class _ALStreamItem {
     required this.title,
     required this.subtitle,
     required this.icon,
-    required this.color,
   });
 
   final String id;
   final String title;
   final String subtitle;
   final IconData icon;
-  final Color color;
 }

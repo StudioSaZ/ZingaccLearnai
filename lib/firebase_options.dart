@@ -10,14 +10,10 @@ class DefaultFirebaseOptions {
 
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'Firebase Android is not configured yet.',
-        );
+        return android;
 
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'Firebase iOS is not configured yet.',
-        );
+        return ios;
 
       case TargetPlatform.macOS:
         throw UnsupportedError(
@@ -43,11 +39,28 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCU5bDk7nBGHZVv0l0z_pj3yz-NMUFoLUc',
+    appId: '1:206138519919:web:705e0bbc80de3a383bf89a',
+    messagingSenderId: '206138519919',
+    projectId: 'zingacc-learn-ai',
     authDomain: 'zingacc-learn-ai.firebaseapp.com',
+    storageBucket: 'zingacc-learn-ai.firebasestorage.app',
+    measurementId: 'G-N389BJBDJT',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyC9sCgbXMwRQ_4aMYHzPDNn767d2ZFiCwQ',
+    appId: '1:206138519919:ios:d8ae801daa65fe7f3bf89a',
+    messagingSenderId: '206138519919',
     projectId: 'zingacc-learn-ai',
     storageBucket: 'zingacc-learn-ai.firebasestorage.app',
+    iosBundleId: 'com.example.zingacclearnai',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyDaip9KS-Z4Wjgzv8HP4RY82-rMttmf4JA',
+    appId: '1:206138519919:android:0ca0dc4ba36c74393bf89a',
     messagingSenderId: '206138519919',
-    appId: '1:206138519919:web:705e0bbc80de3a383bf89a',
-    measurementId: 'G-N389BJBDJT',
+    projectId: 'zingacc-learn-ai',
+    storageBucket: 'zingacc-learn-ai.firebasestorage.app',
   );
 }

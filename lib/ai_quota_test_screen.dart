@@ -53,9 +53,18 @@ class AiQuotaTestScreen extends StatelessWidget {
 
     final allPassed = results.values.every((value) => value);
 
+    const background = Color(0xFF0A1C14); // Deep Dark Green
+    const panel = Color(0xFF112A20); // Dark Green Panel
+    const gold = Color(0xFFD4AF37); // Premium Gold
+
     return Scaffold(
+      backgroundColor: background,
       appBar: AppBar(
-        title: const Text('AI Quota Test'),
+        backgroundColor: background,
+        foregroundColor: gold,
+        title: const Text('AI Quota Test', style: TextStyle(fontWeight: FontWeight.bold, color: gold)),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),
@@ -63,27 +72,40 @@ class AiQuotaTestScreen extends StatelessWidget {
           Icon(
             allPassed ? Icons.check_circle : Icons.error,
             size: 70,
-            color: allPassed ? Colors.green : Colors.red,
+            color: allPassed ? Colors.greenAccent : Colors.redAccent,
           ),
           const SizedBox(height: 16),
           Text(
             allPassed ? 'ALL TESTS PASSED' : 'TEST FAILED',
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
+              color: allPassed ? Colors.greenAccent : Colors.redAccent,
             ),
           ),
           const SizedBox(height: 20),
           for (final entry in results.entries)
             Card(
+              color: panel,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+                side: BorderSide(color: gold.withOpacity(0.3)),
+              ),
+              margin: const EdgeInsets.only(bottom: 10),
               child: ListTile(
                 leading: Icon(
                   entry.value ? Icons.check_circle : Icons.cancel,
-                  color: entry.value ? Colors.green : Colors.red,
+                  color: entry.value ? Colors.greenAccent : Colors.redAccent,
                 ),
-                title: Text(entry.key),
-                trailing: Text(entry.value ? 'PASS' : 'FAIL'),
+                title: Text(entry.key, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                trailing: Text(
+                  entry.value ? 'PASS' : 'FAIL',
+                  style: TextStyle(
+                    color: entry.value ? Colors.greenAccent : Colors.redAccent,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           const SizedBox(height: 20),
@@ -91,6 +113,7 @@ class AiQuotaTestScreen extends StatelessWidget {
             'Preview test only. No AI questions, '
                 'Firebase data or payments are changed.',
             textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white54, fontSize: 13),
           ),
         ],
       ),

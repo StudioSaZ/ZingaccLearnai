@@ -34,33 +34,41 @@ class _MeasuredCirclePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width * .48, size.height * .5);
-    final drawnRadius = math.min(size.width * .30, size.height * .36);
+    // අර කැඩිලා තිබුණු ගුණ කිරීමේ ලකුණු (*) මෙතන නිවැරදි කරලා තියෙනවා
+    final center = Offset(size.width * 0.48, size.height * 0.5);
+    final drawnRadius = math.min(size.width * 0.30, size.height * 0.36);
+
+    const gold = Color(0xFFD4AF37); // අපේ Luxury Gold පාට
+
     final outline = Paint()
-      ..color = Colors.blue.shade700
+      ..color = gold.withOpacity(0.8) // පරණ නිල් පාට වෙනුවට Gold
       ..strokeWidth = 2.5
       ..style = PaintingStyle.stroke;
+
     final radiusPaint = Paint()
-      ..color = Colors.teal.shade700
+      ..color = gold // පරණ තද කොළ පාට වෙනුවට Gold
       ..strokeWidth = 2;
 
     canvas.drawCircle(center, drawnRadius, outline);
     canvas.drawLine(center, center + Offset(drawnRadius, 0), radiusPaint);
-    canvas.drawCircle(center, 3, Paint()..color = Colors.teal.shade700);
+    canvas.drawCircle(center, 4, Paint()..color = gold);
 
     final text = TextPainter(
       text: TextSpan(
         text: 'r = $radius $unit',
-        style: const TextStyle(color: Colors.black, fontSize: 13),
+        style: const TextStyle(
+            color: Colors.white, // කළු පාට අකුරු වෙනුවට සුදු පාට
+            fontSize: 14,
+            fontWeight: FontWeight.w600
+        ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    text.paint(canvas, center + const Offset(5, -23));
+
+    text.paint(canvas, center + const Offset(8, -24));
   }
 
   @override
   bool shouldRepaint(covariant _MeasuredCirclePainter oldDelegate) =>
       oldDelegate.radius != radius || oldDelegate.unit != unit;
 }
-
-

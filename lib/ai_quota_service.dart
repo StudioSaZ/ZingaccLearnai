@@ -15,6 +15,7 @@ class AiQuotaService {
 
   /// Free questions are given only once per account.
   static int freeRemaining(int used) {
+    // අර කැඩිලා තිබුණු අඩු කිරීමේ ලකුණ (-) මෙතන නිවැරදි කරලා තියෙනවා
     final remaining = lifetimeFreeQuestions - _safe(used);
     return remaining > 0 ? remaining : 0;
   }

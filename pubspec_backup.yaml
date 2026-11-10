@@ -1,0 +1,62 @@
+name: zingacclearnai
+description: Zingacc Learn AI - AI powered learning application.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  http: ^1.2.2
+  audioplayers: ^6.0.0
+  path_provider: ^2.1.2
+  file_picker: ^11.0.3
+
+  firebase_core: 4.7.0
+  google_generative_ai: ^0.4.6
+  firebase_app_check: ^0.4.1+2
+
+  pdf: ^3.11.3
+  printing: ^5.13.0
+  firebase_auth: ^6.4.0
+  cloud_firestore: ^6.3.0
+  flutter_math_fork: ^0.7.4
+  payhere_mobilesdk_flutter: ^3.0.2
+  speech_to_text: ^7.5.0
+  share_plus: ^12.0.2
+  flutter_tts: ^4.2.5
+  url_launcher: ^6.3.3
+  shared_preferences: ^2.5.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/zingacc_logo.png"
+  min_sdk_android: 21
+
+flutter_native_splash:
+  color: "#0A1C14" # Luxury Dark Green background to match the app theme
+  image: "assets/zingacc_logo.png"
+  android: true
+  ios: true
+  android_12:
+    color: "#0A1C14"
+    image: "assets/zingacc_logo.png"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/zingacc_logo.png
+    - assets/student_banner.png

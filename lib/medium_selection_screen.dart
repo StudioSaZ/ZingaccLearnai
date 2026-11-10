@@ -93,7 +93,7 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          '$levelName • ${medium.englishTitle} selected.',
+          '$levelName\n${medium.englishTitle} selected.',
         ),
       ),
     );
@@ -101,11 +101,14 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const background = Color(0xFF0A1C14);
+    const gold = Color(0xFFD4AF37);
+
     return Scaffold(
-      backgroundColor: const Color(0xFF07132F),
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF07132F),
-        foregroundColor: Colors.white,
+        backgroundColor: background,
+        foregroundColor: gold,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
@@ -113,6 +116,7 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
           'Zingacc Learn AI',
           style: TextStyle(
             fontWeight: FontWeight.w800,
+            color: gold,
           ),
         ),
       ),
@@ -126,9 +130,8 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       final columns = constraints.maxWidth >= 760 ? 3 : 1;
-                      final cardWidth =
-                          (constraints.maxWidth - 36 - 12 * (columns - 1)) /
-                              columns;
+                      // කැඩිලා තිබුණු කෝඩ් එක මෙතන නිවැරදි කරලා තියෙනවා (Missing * added)
+                      final cardWidth = (constraints.maxWidth - 36 - 12 * (columns - 1)) / columns;
 
                       return ListView(
                         padding: const EdgeInsets.fromLTRB(
@@ -148,10 +151,10 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                                 vertical: 10,
                               ),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF192B55),
+                                color: const Color(0xFF112A20),
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: const Color(0xFF365393),
+                                  color: gold.withValues(alpha: 0.5),
                                 ),
                               ),
                               child: Row(
@@ -159,7 +162,7 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                                 children: [
                                   const Icon(
                                     Icons.school_rounded,
-                                    color: Color(0xFF70CFFF),
+                                    color: gold,
                                     size: 22,
                                   ),
                                   const SizedBox(width: 9),
@@ -181,7 +184,7 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                           const Text(
                             'Select Your Medium',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: gold,
                               fontSize: 26,
                               fontWeight: FontWeight.w800,
                             ),
@@ -190,7 +193,7 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                           const Text(
                             'ඔබ ඉගෙන ගන්නා මාධ්‍යය තෝරන්න',
                             style: TextStyle(
-                              color: Color(0xFFC3D0EA),
+                              color: Colors.white70,
                               fontSize: 16,
                               height: 1.5,
                             ),
@@ -199,7 +202,7 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                           const Text(
                             'உங்கள் கல்வி மொழிமூலத்தைத் தேர்ந்தெடுக்கவும்',
                             style: TextStyle(
-                              color: Color(0xFFC3D0EA),
+                              color: Colors.white70,
                               fontSize: 14,
                               height: 1.5,
                             ),
@@ -224,10 +227,10 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF14264B),
+                              color: const Color(0xFF112A20),
                               borderRadius: BorderRadius.circular(18),
                               border: Border.all(
-                                color: const Color(0xFF29436E),
+                                color: gold.withValues(alpha: 0.4),
                               ),
                             ),
                             child: const Row(
@@ -235,7 +238,7 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                               children: [
                                 Icon(
                                   Icons.auto_awesome_rounded,
-                                  color: Color(0xFF70CFFF),
+                                  color: gold,
                                   size: 24,
                                 ),
                                 SizedBox(width: 12),
@@ -243,7 +246,7 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                                   child: Text(
                                     'English Medium students can still ask the AI Tutor to explain difficult lessons in සිංහල or தமிழ்.',
                                     style: TextStyle(
-                                      color: Color(0xFFD4E1F7),
+                                      color: Colors.white,
                                       fontSize: 14,
                                       height: 1.5,
                                     ),
@@ -265,11 +268,11 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                     18,
                     18,
                   ),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF07132F),
+                  decoration: BoxDecoration(
+                    color: background,
                     border: Border(
                       top: BorderSide(
-                        color: Color(0xFF263960),
+                        color: gold.withValues(alpha: 0.3),
                       ),
                     ),
                   ),
@@ -287,10 +290,10 @@ class _MediumSelectionScreenState extends State<MediumSelectionScreen> {
                       ),
                     ),
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF7546D8),
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: const Color(0xFF263451),
-                      disabledForegroundColor: const Color(0xFFABBCD8),
+                      backgroundColor: gold,
+                      foregroundColor: background,
+                      disabledBackgroundColor: const Color(0xFF112A20),
+                      disabledForegroundColor: Colors.white54,
                       minimumSize: const Size.fromHeight(54),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -323,30 +326,19 @@ class MediumCard extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  Color get accent {
-    switch (medium.id) {
-      case 'sinhala':
-        return const Color(0xFFB77AFF);
-      case 'english':
-        return const Color(0xFF55B9FF);
-      case 'tamil':
-        return const Color(0xFF39D5BD);
-      default:
-        return const Color(0xFFB77AFF);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    const gold = Color(0xFFD4AF37);
+
     return Semantics(
       selected: selected,
       child: Material(
         color:
-        selected ? accent.withValues(alpha: 0.18) : const Color(0xFF101F43),
+        selected ? gold.withValues(alpha: 0.22) : const Color(0xFF112A20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(
-            color: selected ? accent : const Color(0xFF263960),
+            color: selected ? gold : gold.withValues(alpha: 0.3),
             width: selected ? 2 : 1,
           ),
         ),
@@ -365,12 +357,12 @@ class MediumCard extends StatelessWidget {
                       width: 52,
                       height: 52,
                       decoration: BoxDecoration(
-                        color: accent.withValues(alpha: 0.18),
+                        color: gold.withValues(alpha: 0.18),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Icon(
                         medium.icon,
-                        color: accent,
+                        color: gold,
                         size: 28,
                       ),
                     ),
@@ -378,7 +370,7 @@ class MediumCard extends StatelessWidget {
                       selected
                           ? Icons.check_circle_rounded
                           : Icons.radio_button_unchecked_rounded,
-                      color: selected ? accent : const Color(0xFF8093B7),
+                      color: selected ? gold : Colors.white54,
                       size: 26,
                     ),
                   ],
@@ -397,8 +389,8 @@ class MediumCard extends StatelessWidget {
                   const SizedBox(height: 5),
                   Text(
                     medium.englishTitle,
-                    style: TextStyle(
-                      color: accent,
+                    style: const TextStyle(
+                      color: gold,
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
                     ),
@@ -408,7 +400,7 @@ class MediumCard extends StatelessWidget {
                 Text(
                   medium.description,
                   style: const TextStyle(
-                    color: Color(0xFFC3D0EA),
+                    color: Colors.white70,
                     fontSize: 14,
                     height: 1.5,
                   ),

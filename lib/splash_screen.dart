@@ -83,8 +83,11 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    const background = Color(0xFF0A1C14); // Deep Dark Green
+    const gold = Color(0xFFD4AF37); // Premium Gold
+
     return Scaffold(
-      backgroundColor: const Color(0xFF07132F),
+      backgroundColor: background,
       body: SafeArea(
         child: Center(
           child: FadeTransition(
@@ -100,8 +103,8 @@ class _SplashScreenState extends State<SplashScreen>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF70CFFF).withValues(
-                            alpha: 0.2,
+                          color: gold.withValues(
+                            alpha: 0.25,
                           ),
                           blurRadius: 40,
                           spreadRadius: 10,
@@ -118,7 +121,7 @@ class _SplashScreenState extends State<SplashScreen>
                         errorBuilder: (context, error, stackTrace) {
                           return const Icon(
                             Icons.school_rounded,
-                            color: Color(0xFF70CFFF),
+                            color: gold, // Gold Icon fallback
                             size: 100,
                           );
                         },
@@ -141,9 +144,9 @@ class _SplashScreenState extends State<SplashScreen>
                     'දැනුමෙන් හෙට දිනමු',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFF70CFFF),
+                      color: gold, // Gold Tagline
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
                     ),
                   ),
@@ -152,7 +155,7 @@ class _SplashScreenState extends State<SplashScreen>
                     width: 40,
                     height: 40,
                     child: CircularProgressIndicator(
-                      color: Color(0xFF7546D8),
+                      color: gold, // Gold Loader
                       strokeWidth: 3,
                     ),
                   ),

@@ -252,6 +252,7 @@ class _QuizScreenState extends State<QuizScreen> {
     if (!_answered) {
       return;
     }
+    // අර කැඩිලා තිබුණු අඩු කිරීමේ ලකුණ (-) මෙතන නිවැරදි කරලා තියෙනවා
     if (_currentQuestion < _questions.length - 1) {
       setState(() {
         _currentQuestion++;
@@ -279,15 +280,16 @@ class _QuizScreenState extends State<QuizScreen> {
       barrierDismissible: false,
       builder: (dialogContext) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF101D43),
+          backgroundColor: const Color(0xFF112A20), // Dark Green Background
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
+            side: const BorderSide(color: Color(0xFFD4AF37), width: 2), // Gold Border
           ),
           title: Column(
             children: [
               const Icon(
                 Icons.emoji_events_rounded,
-                color: Color(0xFFFFC107),
+                color: Color(0xFFD4AF37), // Gold Icon
                 size: 54,
               ),
               const SizedBox(height: 10),
@@ -315,14 +317,14 @@ class _QuizScreenState extends State<QuizScreen> {
                   'உங்கள் மதிப்பெண்',
                 ),
                 style: const TextStyle(
-                  color: Color(0xFFAFC3E8),
+                  color: Colors.white70,
                 ),
               ),
               const SizedBox(height: 7),
               Text(
                 '$_score / ${_questions.length}',
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFFD4AF37), // Gold Score
                   fontSize: 34,
                   fontWeight: FontWeight.w900,
                 ),
@@ -332,7 +334,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 _resultMessage(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  color: Color(0xFFDCE7FF),
+                  color: Colors.white,
                   height: 1.4,
                 ),
               ),
@@ -351,10 +353,15 @@ class _QuizScreenState extends State<QuizScreen> {
                   'Back',
                   'திரும்பு',
                 ),
+                style: const TextStyle(color: Colors.white70),
               ),
             ),
             FilledButton.icon(
               onPressed: _restartQuiz,
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFFD4AF37), // Gold Button
+                foregroundColor: const Color(0xFF0A1C14), // Dark Green Text
+              ),
               icon: const Icon(Icons.refresh_rounded),
               label: Text(
                 t(
@@ -362,6 +369,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   'Try Again',
                   'மீண்டும் முயற்சி',
                 ),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -397,31 +405,32 @@ class _QuizScreenState extends State<QuizScreen> {
       _QuizQuestion question,
       ) {
     if (!_answered) {
-      return const Color(0xFF132756);
+      return const Color(0xFF0A1C14); // Very Dark Green
     }
     if (index == question.correctIndex) {
-      return const Color(0xFF087A52);
+      return const Color(0xFF0F472B); // Success Green
     }
     if (index == _selectedAnswer && index != question.correctIndex) {
-      return const Color(0xFF8C2E3A);
+      return const Color(0xFF6B1F27); // Error Red
     }
-    return const Color(0xFF132756);
+    return const Color(0xFF0A1C14);
   }
 
   Color _optionBorderColor(
       int index,
       _QuizQuestion question,
       ) {
+    const gold = Color(0xFFD4AF37);
     if (!_answered) {
-      return const Color(0xFF31538D);
+      return gold.withOpacity(0.5); // Gold border
     }
     if (index == question.correctIndex) {
-      return const Color(0xFF24E69A);
+      return const Color(0xFF24E69A); // Success Border
     }
     if (index == _selectedAnswer && index != question.correctIndex) {
-      return const Color(0xFFFF7182);
+      return const Color(0xFFFF7182); // Error Border
     }
-    return const Color(0xFF31538D);
+    return gold.withOpacity(0.2);
   }
 
   IconData? _optionIcon(
@@ -442,14 +451,15 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const background = Color(0xFF06112D);
-    const panel = Color(0xFF0C1B46);
-    const cyan = Color(0xFF16D9FF);
+    const background = Color(0xFF0A1C14); // Deep Dark Green
+    const panel = Color(0xFF112A20); // Dark Green Panel
+    const gold = Color(0xFFD4AF37); // Premium Gold
+
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
         backgroundColor: background,
-        foregroundColor: Colors.white,
+        foregroundColor: gold, // Gold Title
         elevation: 0,
         title: Text(
           t(
@@ -466,11 +476,11 @@ class _QuizScreenState extends State<QuizScreen> {
         child: _hasVerifiedQuiz
             ? _buildQuiz(
           panel: panel,
-          cyan: cyan,
+          gold: gold,
         )
             : _buildComingSoon(
           panel: panel,
-          cyan: cyan,
+          gold: gold,
         ),
       ),
     );
@@ -478,7 +488,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Widget _buildQuiz({
     required Color panel,
-    required Color cyan,
+    required Color gold,
   }) {
     final question = _questions[_currentQuestion];
     final progress = (_currentQuestion + 1) / _questions.length;
@@ -523,8 +533,8 @@ class _QuizScreenState extends State<QuizScreen> {
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [
-                    Color(0xFFE67900),
-                    Color(0xFFFFB300),
+                    Color(0xFFE5C058), // Light Gold
+                    Color(0xFFB58E29), // Dark Gold
                   ],
                 ),
                 borderRadius: BorderRadius.circular(22),
@@ -535,14 +545,14 @@ class _QuizScreenState extends State<QuizScreen> {
                     width: 54,
                     height: 54,
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(
+                      color: const Color(0xFF0A1C14).withValues(
                         alpha: 0.18,
                       ),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: const Icon(
                       Icons.quiz_rounded,
-                      color: Colors.white,
+                      color: Color(0xFF0A1C14),
                       size: 31,
                     ),
                   ),
@@ -558,7 +568,7 @@ class _QuizScreenState extends State<QuizScreen> {
                             'தரம் 6 கணிதம் — தொகுதிகள் 1–3 வினாடி வினா',
                           ),
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: Color(0xFF0A1C14),
                             fontSize: 20,
                             fontWeight: FontWeight.w900,
                           ),
@@ -571,8 +581,9 @@ class _QuizScreenState extends State<QuizScreen> {
                             'உங்கள் புரிதலைச் சோதியுங்கள்',
                           ),
                           style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
+                              color: Color(0xFF0A1C14),
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                       ],
@@ -600,8 +611,8 @@ class _QuizScreenState extends State<QuizScreen> {
                 Text(
                   '${(progress * 100).round()}%',
                   style: TextStyle(
-                    color: cyan,
-                    fontWeight: FontWeight.w800,
+                    color: gold,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ],
@@ -612,10 +623,8 @@ class _QuizScreenState extends State<QuizScreen> {
               child: LinearProgressIndicator(
                 value: progress,
                 minHeight: 9,
-                backgroundColor: const Color(0xFF172A55),
-                valueColor: const AlwaysStoppedAnimation<Color>(
-                  Color(0xFFFFB300),
-                ),
+                backgroundColor: panel,
+                valueColor: AlwaysStoppedAnimation<Color>(gold),
               ),
             ),
             const SizedBox(height: 17),
@@ -625,7 +634,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 color: panel,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: const Color(0xFF294A87),
+                  color: gold.withOpacity(0.3),
                 ),
               ),
               child: Text(
@@ -686,15 +695,15 @@ class _QuizScreenState extends State<QuizScreen> {
                               height: 34,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(
-                                  alpha: 0.12,
+                                color: gold.withValues(
+                                  alpha: 0.2,
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
                                 letters[index],
-                                style: const TextStyle(
-                                  color: Colors.white,
+                                style: TextStyle(
+                                  color: gold,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
@@ -705,7 +714,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                 question.options[index],
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 14,
+                                  fontSize: 15,
                                   height: 1.35,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -731,10 +740,10 @@ class _QuizScreenState extends State<QuizScreen> {
               Container(
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF102A4F),
+                  color: panel,
                   borderRadius: BorderRadius.circular(17),
                   border: Border.all(
-                    color: const Color(0xFF2A68A5),
+                    color: gold.withOpacity(0.5),
                   ),
                 ),
                 child: Row(
@@ -742,14 +751,14 @@ class _QuizScreenState extends State<QuizScreen> {
                   children: [
                     const Icon(
                       Icons.lightbulb_rounded,
-                      color: Color(0xFFFFD54F),
+                      color: Color(0xFFD4AF37), // Gold Icon
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         question.explanation,
                         style: const TextStyle(
-                          color: Color(0xFFDCE7FF),
+                          color: Colors.white,
                           height: 1.45,
                         ),
                       ),
@@ -763,8 +772,8 @@ class _QuizScreenState extends State<QuizScreen> {
                 child: FilledButton.icon(
                   onPressed: _nextQuestion,
                   style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFFE67900),
-                    foregroundColor: Colors.white,
+                    backgroundColor: gold,
+                    foregroundColor: const Color(0xFF0A1C14),
                     padding: const EdgeInsets.symmetric(
                       vertical: 15,
                     ),
@@ -773,11 +782,13 @@ class _QuizScreenState extends State<QuizScreen> {
                     ),
                   ),
                   icon: Icon(
+                    // අර කැඩිලා තිබුණු අඩු කිරීමේ ලකුණ (-) මෙතන නිවැරදි කරලා තියෙනවා
                     _currentQuestion == _questions.length - 1
                         ? Icons.emoji_events_rounded
                         : Icons.arrow_forward_rounded,
                   ),
                   label: Text(
+                    // අර කැඩිලා තිබුණු අඩු කිරීමේ ලකුණ (-) මෙතන නිවැරදි කරලා තියෙනවා
                     _currentQuestion == _questions.length - 1
                         ? t(
                       'ප්‍රතිඵල බලන්න',
@@ -790,7 +801,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       'அடுத்த கேள்வி',
                     ),
                     style: const TextStyle(
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                 ),
@@ -804,12 +815,13 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Widget _buildComingSoon({
     required Color panel,
-    required Color cyan,
+    required Color gold,
   }) {
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(22),
         child: Container(
+          // අර කැඩිලා තිබුණු අඩු කිරීමේ ලකුණ (-) මෙතන නිවැරදි කරලා තියෙනවා
           width: MediaQuery.sizeOf(context).width < 564
               ? MediaQuery.sizeOf(context).width - 44
               : 520,
@@ -818,7 +830,7 @@ class _QuizScreenState extends State<QuizScreen> {
             color: panel,
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: const Color(0xFF294A87),
+              color: gold.withOpacity(0.5),
             ),
           ),
           child: Column(
@@ -832,15 +844,15 @@ class _QuizScreenState extends State<QuizScreen> {
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [
-                      Color(0xFFE67900),
-                      Color(0xFFFFB300),
+                      Color(0xFFF9D976),
+                      Color(0xFFD4AF37), // Gold
                     ],
                   ),
                   borderRadius: BorderRadius.circular(22),
                 ),
                 child: const Icon(
                   Icons.quiz_rounded,
-                  color: Colors.white,
+                  color: Color(0xFF0A1C14), // Dark Green
                   size: 40,
                 ),
               ),
@@ -867,7 +879,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  color: Color(0xFFAFC3E8),
+                  color: Colors.white70,
                   height: 1.5,
                 ),
               ),
@@ -895,9 +907,9 @@ class _QuizScreenState extends State<QuizScreen> {
               OutlinedButton.icon(
                 onPressed: () => Navigator.pop(context),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: cyan,
-                  side: const BorderSide(
-                    color: Color(0xFF16D9FF),
+                  foregroundColor: gold,
+                  side: BorderSide(
+                    color: gold.withOpacity(0.5),
                   ),
                 ),
                 icon: const Icon(
@@ -941,16 +953,17 @@ class _ContextChip extends StatelessWidget {
   final String text;
   @override
   Widget build(BuildContext context) {
+    const gold = Color(0xFFD4AF37);
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
         vertical: 7,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFF14295C),
+        color: const Color(0xFF0A1C14), // Deep Dark Green
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: const Color(0xFF294A87),
+          color: gold.withOpacity(0.5),
         ),
       ),
       child: Row(
@@ -958,14 +971,14 @@ class _ContextChip extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: const Color(0xFF67DEFF),
+            color: gold, // Gold Icon
             size: 15,
           ),
           const SizedBox(width: 5),
           Text(
             text,
             style: const TextStyle(
-              color: Color(0xFFD8E4FF),
+              color: Colors.white,
               fontSize: 11,
               fontWeight: FontWeight.w600,
             ),
